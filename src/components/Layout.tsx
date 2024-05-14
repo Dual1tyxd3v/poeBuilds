@@ -4,6 +4,7 @@ import { GetBuildsResponse } from '../types';
 import { useEffect, useState } from 'react';
 import Loader from './Loader';
 import Wrapper from '../ui/Wrapper';
+import Nav from './Nav';
 
 export default function Layout() {
   const [resp, setResp] = useState<GetBuildsResponse>({ data: [], error: null });
@@ -23,7 +24,8 @@ export default function Layout() {
 
   return (
     <Wrapper>
-      <p>layout - {resp.data.length}</p>
+      {/* <p>layout - {resp.data.length}</p> */}
+      <Nav builds={resp.data} />
       <Outlet />
     </Wrapper>
   );
