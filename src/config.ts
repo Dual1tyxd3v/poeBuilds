@@ -7,4 +7,10 @@ export enum AppRoute {
   Login = '/login',
 }
 
+export enum AuthStatus {
+  Auth = 'auth',
+  NoAuth = 'noauth',
+  Unknown = 'unknown',
+}
+
 export const SORT_TAB = ['name', 'damage', 'difficulty'];
