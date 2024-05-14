@@ -1,3 +1,10 @@
+:root {
+  --color-text--primary: #dfcf99;
+  --color-text--active: #f2c462;
+  --color-border: #734e32;
+  --color-bg: rgb(15, 15, 15);
+}
+
 *,
 *::after,
 *::before {
@@ -6,8 +13,21 @@
   padding: 0;
 }
 
+@font-face {
+  font-family: 'Fontin';
+  src: url(./assets/FontinSans_Cyrillic_R_46b.otf);
+  font-display: swap;
+}
+@font-face {
+  font-family: 'FontinCard';
+  src: url(./assets/FontinSans_Cyrillic_SC_46b.otf);
+  font-display: swap;
+}
+
 html {
   font-size: 62.5%;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: var(--color-primary);
 }
 
 a {
@@ -20,4 +40,18 @@ ul {
 
 img {
   width: 100%;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  background: url(./assets/bg.jpg) no-repeat #000;
+  background-position: center top;
+  background-size: contain;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+  padding: 3rem;
 }

@@ -3,7 +3,7 @@ import { getBuilds } from '../api';
 import { GetBuildsResponse } from '../types';
 import { useEffect, useState } from 'react';
 import Loader from './Loader';
-
+import Wrapper from '../ui/Wrapper';
 
 export default function Layout() {
   const [resp, setResp] = useState<GetBuildsResponse>({ data: [], error: null });
@@ -22,9 +22,9 @@ export default function Layout() {
   if (isLoading) return <Loader />;
 
   return (
-    <div>
+    <Wrapper>
       <p>layout - {resp.data.length}</p>
       <Outlet />
-    </div>
+    </Wrapper>
   );
 }
