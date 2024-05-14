@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 import { Build } from '../types';
-import { SORT_TAB } from '../config';
+import { AppRoute, SORT_TAB } from '../config';
 import { useState } from 'react';
+import { sortBuilds } from '../utils';
+import { NavLink } from 'react-router-dom';
 
 type NavProps = {
   builds: Build[];
@@ -57,20 +59,29 @@ const Option = styled.option`
 `;
 
 export default function Nav({ builds }: NavProps) {
-  const [sort, setSort] = useState(SORT_TAB[0]);
+  const [sort, setSort] = useState(SORT_TAB.Name);
+  const [sortedBuilds] = useState(sortBuilds(builds, sort));
   console.log(builds);
   return (
     <Navigation>
       <SelectBlock>
         <SelectLabel>Sort by</SelectLabel>
-        <Select value={sort} onChange={(e) => setSort(e.target.value)}>
-          {SORT_TAB.map((sort, i) => (
+        <Select value={sort} onChange={(e) => setSort(e.target.value as SORT_TAB)}>
+          {Object.values(SORT_TAB).map((sort, i) => (
             <Option key={`sort${i}_${sort}`} value={sort}>
               {sort}
             </Option>
           ))}
         </Select>
       </SelectBlock>
+
+      <ul>
+        {sortedBuilds.map(({ id, name }) => (
+          <li key={`build_${id}`}>
+            <NavLink to={`${AppRoute.Main}${id}`}>{name}</NavLink>
+          </li>
+        ))}
+      </ul>
     </Navigation>
   );
 }

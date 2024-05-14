@@ -8,7 +8,7 @@ export type Build = {
   pob: string;
   damage: number;
   difficulty: number;
-  di: number;
+  id: number;
   items: BuildItem[];
 };
 
@@ -16,3 +16,4 @@ export type GetBuildsResponse = {
   data: Build[];
   error: string | null;
 };
+

@@ -13,4 +13,10 @@ export enum AuthStatus {
   Unknown = 'unknown',
 }
 
-export const SORT_TAB = ['name', 'damage', 'difficulty'];
+// export const SORT_TAB = ['name', 'damage', 'difficulty'];
+
+export enum SORT_TAB {
+  Name = 'name',
+  Damage = 'damage',
+  Difficulty = 'difficulty',
+}
