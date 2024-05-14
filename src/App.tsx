@@ -32,6 +32,7 @@ const router = createBrowserRouter([
 function App() {
   const [auth, setAuth] = useState(AuthStatus.Unknown);
 
+
   useEffect(() => {
     if (auth !== 'unknown') return;
 

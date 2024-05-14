@@ -1,3 +1,3 @@
 export default function Loader() {
-  return <p>Loading...</p>;
+  return <p style={{fontSize: '20px'}}>Loading...</p>;
 }
