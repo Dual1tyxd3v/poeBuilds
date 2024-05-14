@@ -3,7 +3,10 @@
   --color-text--active: #f2c462;
   --color-border: #734e32;
   --color-bg: rgb(15, 15, 15);
+  --color-bg--hover: #5a380680;
+  --color-bg--active: #5a3806;
   --color-divider: #5e4f45;
+  --color-text--mods: rgb(136, 136, 255);
 }
 
 *,

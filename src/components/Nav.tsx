@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import { Build } from '../types';
-import { AppRoute, SORT_TAB } from '../config';
+import { SORT_TAB } from '../config';
 import { useEffect, useState } from 'react';
 import { sortBuilds } from '../utils';
-import { NavLink } from 'react-router-dom';
 import { HiArrowsUpDown } from 'react-icons/hi2';
+import NavTab from './NavTab';
 
 type NavProps = {
   builds: Build[];
@@ -25,6 +25,7 @@ const SelectBlock = styled.div`
   padding: 1rem 0;
   padding-bottom: calc(1rem + 2px);
   position: relative;
+  margin-bottom: 1rem;
 
   &::after {
     content: '';
@@ -99,10 +100,8 @@ export default function Nav({ builds }: NavProps) {
       </SelectBlock>
 
       <ul>
-        {sortedBuilds.map(({ id, name }) => (
-          <li key={`build_${id}`}>
-            <NavLink to={`${AppRoute.Main}${id}`}>{name}</NavLink>
-          </li>
+        {sortedBuilds.map((build) => (
+          <NavTab key={`build_${build.id}`} build={build} />
         ))}
       </ul>
     </Navigation>
