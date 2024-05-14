@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import { Build } from '../types';
 import { AppRoute, SORT_TAB } from '../config';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { sortBuilds } from '../utils';
 import { NavLink } from 'react-router-dom';
+import { HiArrowsUpDown } from 'react-icons/hi2';
 
 type NavProps = {
   builds: Build[];
@@ -58,10 +59,29 @@ const Option = styled.option`
   background-color: var(--color-bg);
 `;
 
+const BtnReverseSort = styled.button`
+  border: none;
+  background-color: transparent;
+  color: var(--color-text--primary);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--color-text--active);
+
+    & svg {
+      stroke-width: 1;
+    }
+  }
+`;
+
 export default function Nav({ builds }: NavProps) {
   const [sort, setSort] = useState(SORT_TAB.Name);
-  const [sortedBuilds] = useState(sortBuilds(builds, sort));
-  console.log(builds);
+  const [sortedBuilds, setSortedBuilds] = useState(sortBuilds(builds, sort));
+
+  useEffect(() => {
+    setSortedBuilds((prev) => sortBuilds(prev, sort));
+  }, [sort]);
+
   return (
     <Navigation>
       <SelectBlock>
@@ -73,6 +93,9 @@ export default function Nav({ builds }: NavProps) {
             </Option>
           ))}
         </Select>
+        <BtnReverseSort onClick={() => setSortedBuilds((prev) => [...prev].reverse())}>
+          <HiArrowsUpDown size={'2rem'} />
+        </BtnReverseSort>
       </SelectBlock>
 
       <ul>
