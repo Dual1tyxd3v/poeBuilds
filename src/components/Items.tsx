@@ -5,6 +5,7 @@ import Item from './Item';
 type ItemsProps = {
   items: ItemType[];
   buildItems: BuildItem[];
+  setActive: (v: null | ItemType) => void;
 };
 
 const Container = styled.div`
@@ -24,11 +25,11 @@ const Container = styled.div`
   justify-content: center;
 `;
 
-export default function Items({ items, buildItems }: ItemsProps) {
+export default function Items({ items, buildItems, setActive }: ItemsProps) {
   return (
     <Container>
       {buildItems.map(({ id, slot }, i) => (
-        <Item key={`${i}_${id}`} slot={slot} item={items.filter((item) => item.id === id)[0]} />
+        <Item setActive={setActive} key={`${i}_${id}`} slot={slot} item={items.filter((item) => item.id === id)[0]} />
       ))}
     </Container>
   );

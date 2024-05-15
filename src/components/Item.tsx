@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Item as ItemType } from '../types';
+import { MouseEvent } from 'react';
 
 type SlotProps = {
   slot: string;
@@ -19,12 +20,17 @@ const Slot = styled.div<SlotProps>`
 type ItemProps = {
   slot: string;
   item: ItemType;
+  setActive: (v: null | ItemType) => void;
 };
 
-export default function Item({ slot, item }: ItemProps) {
+export default function Item({ slot, item, setActive }: ItemProps) {
   const { img, name } = item;
+
+  function onMouseHandler(e: MouseEvent) {
+    setActive(e.type === 'mouseenter' ? item : null);
+  }
   return (
-    <Slot slot={slot}>
+    <Slot slot={slot} onMouseEnter={onMouseHandler} onMouseLeave={onMouseHandler}>
       <img src={img} alt={name} />
     </Slot>
   );

@@ -6,6 +6,7 @@ const Header = styled.div`
     url(src/assets/head--mid.png) center top repeat-x;
   font-family: 'FontinCard';
   text-align: center;
+  overflow: hidden;
 `;
 
 export default Header;

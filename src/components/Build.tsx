@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { getBuildDetails } from '../api';
 import Loader from './Loader';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Build as BuildType, Item } from '../types';
 import BuildHeader from './BuildHeader';
 import Items from './Items';
@@ -23,6 +23,7 @@ export default function Build() {
   const [isLoading, setIsLoading] = useState(false);
   const [build, setBuild] = useState<null | BuildType>(null);
   const [items, setItems] = useState<null | Item[]>(null);
+  const [activeItem, setActiveItem] = useState<null | Item>(null);
 
   useEffect(() => {
     async function getData(id: number) {
@@ -40,17 +41,22 @@ export default function Build() {
     getData(+id);
   }, [id]);
 
+  const setActive = useCallback((value: null | Item) => {
+    setActiveItem(value);
+  }, []);
+
   if (isLoading) return <Loader />;
 
   if (!build || !items) return null;
 
   const { name, pob } = build;
+
   return (
     <Container>
       <BuildHeader name={name} pob={pob} />
       <Wrapper>
-        <Items items={items} buildItems={build.items} />
-        <PreviewItem />
+        <Items setActive={setActive} items={items} buildItems={build.items} />
+        <PreviewItem item={activeItem} />
       </Wrapper>
     </Container>
   );
