@@ -63,3 +63,7 @@ body {
   height: 100%;
   padding: 3rem;
 }
+
+@keyframes l19 { 
+  100%{transform: rotate(1turn)}
+}

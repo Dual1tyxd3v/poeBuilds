@@ -24,7 +24,6 @@ export default function Layout() {
 
   return (
     <Wrapper>
-      {/* <p>layout - {resp.data.length}</p> */}
       <Nav builds={resp.data} />
       <Outlet />
     </Wrapper>
