@@ -1,4 +1,4 @@
-type BuildItem = {
+export type BuildItem = {
   id: number;
   slot: string;
 };

@@ -3,18 +3,26 @@ import styled from 'styled-components';
 import { getBuildDetails } from '../api';
 import Loader from './Loader';
 import { useEffect, useState } from 'react';
-import { Build as BuildType } from '../types';
+import { Build as BuildType, Item } from '../types';
 import BuildHeader from './BuildHeader';
+import Items from './Items';
+import PreviewItem from './PreviewItem';
 
 const Container = styled.div`
   flex: 1;
   color: var(--color-text--primary);
+  overflow: auto;
+`;
+
+const Wrapper = styled.div`
+  display: flex;
 `;
 
 export default function Build() {
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(false);
   const [build, setBuild] = useState<null | BuildType>(null);
+  const [items, setItems] = useState<null | Item[]>(null);
 
   useEffect(() => {
     async function getData(id: number) {
@@ -24,6 +32,7 @@ export default function Build() {
       if (!resp.data) return;
 
       setBuild(resp.data.build[0]);
+      setItems(resp.data.items);
     }
 
     if (!id) return;
@@ -33,12 +42,16 @@ export default function Build() {
 
   if (isLoading) return <Loader />;
 
-  if (!build) return null;
+  if (!build || !items) return null;
 
   const { name, pob } = build;
   return (
     <Container>
       <BuildHeader name={name} pob={pob} />
+      <Wrapper>
+        <Items items={items} buildItems={build.items} />
+        <PreviewItem />
+      </Wrapper>
     </Container>
   );
 }
