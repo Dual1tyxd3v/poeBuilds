@@ -17,6 +17,14 @@ export type GetBuildsResponse = {
   error: string | null;
 };
 
+export type GetBuildDetailsResponse = {
+  data: {
+    build: Build[];
+    items: Item[];
+  } | null;
+  error: string | null;
+};
+
 type ItemStats = {
   name: string[];
   text: string;

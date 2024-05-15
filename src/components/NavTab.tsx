@@ -13,6 +13,7 @@ const A = styled(NavLink)`
   text-align: center;
   font-family: 'Fontin';
   padding: 0.5rem 0;
+  transition: background-color 0.2s ease;
 
   &:hover {
     background-color: var(--color-bg--hover);

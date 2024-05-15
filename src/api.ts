@@ -34,14 +34,18 @@ export const getBuildDetails = async (id: number) => {
   try {
     const { data: build, error } = await supabase.from('builds').select('*').eq('id', id);
 
-    if (error || !build.length) return { data: [], error };
+    if (error || !build.length) return { data: null, error: error?.toString() || null };
 
     const itemsID = (build[0] as Build).items.map((item) => item.id);
     const { data: items, error: itemsError } = await supabase.from('items').select('*').in('id', itemsID);
 
-    return { data: [build as Build[], items as Item[]], error: itemsError };
+    if (itemsError || !items.length) return { data: null, error: itemsError?.toString() || null };
+
+    const result: { build: Build[]; items: Item[] } = { build, items };
+
+    return { data: result, error: null };
   } catch (e) {
     console.log(e);
-    return { data: [], error: (e as Error).message };
+    return { data: null, error: (e as Error).message };
   }
 };

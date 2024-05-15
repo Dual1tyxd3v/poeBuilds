@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { GetBuildsResponse } from '../types';
 
-export const useData = (apiFN: () => Promise<GetBuildsResponse>) => {
+type ApiFn = () => Promise<GetBuildsResponse>;
+
+export const useData = (apiFN: ApiFn) => {
   const [isLoading, setIsLoading] = useState(true);
   const [resp, setResp] = useState<GetBuildsResponse>({ data: [], error: null });
 
