@@ -1,24 +1,12 @@
 import { Outlet } from 'react-router-dom';
 import { getBuilds } from '../api';
-import { GetBuildsResponse } from '../types';
-import { useEffect, useState } from 'react';
 import Loader from './Loader';
 import Wrapper from '../ui/Wrapper';
 import Nav from './Nav';
+import { useData } from '../hooks/useData';
 
 export default function Layout() {
-  const [resp, setResp] = useState<GetBuildsResponse>({ data: [], error: null });
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    async function getData() {
-      const response = await getBuilds();
-      setResp(response);
-      setIsLoading(false);
-    }
-
-    getData();
-  }, []);
+  const {isLoading, resp } = useData(getBuilds);
 
   if (isLoading) return <Loader />;
 
