@@ -7,6 +7,7 @@ import { createContext, useCallback, useEffect, useState } from 'react';
 import { checkAuth } from './api';
 import NotFound from './pages/NotFound';
 import Login from './pages/Login';
+import NewBuild from './pages/NewBuild';
 
 export const MyContext = createContext<null | { auth: AuthStatus; changeAuthStatus: (v: AuthStatus) => void }>(null);
 
@@ -25,11 +26,11 @@ const router = createBrowserRouter([
     path: AppRoute.Login,
     element: <Login />,
   },
-  /* 
+
   {
     path: AppRoute.Add,
-    element: ...
-  } */
+    element: <NewBuild />,
+  },
   {
     path: '*',
     element: <NotFound />,
@@ -49,7 +50,7 @@ function App() {
 
     getUser();
   }, [auth]);
-  
+
   console.log(auth);
   const changeAuthStatus = useCallback((value: AuthStatus) => {
     setAuth(value);

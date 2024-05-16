@@ -37,10 +37,14 @@ const Title = styled.h3`
   }
 `;
 
-const Field = styled.div`
+type FieldProps = {
+  isWrong: boolean;
+};
+
+const Field = styled.div<FieldProps>`
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--color-text--primary);
+  border: ${(props) => (props.isWrong ? '1px solid red' : '1px solid var(--color-text--primary)')};
   font-size: 1.6rem;
   min-width: 40rem;
   padding: 0.5rem;
@@ -70,8 +74,15 @@ const Input = styled.input`
   font-family: 'Verdana';
 `;
 
+const ErrorMessage = styled.p`
+  color: red;
+  font-size: 1.6rem;
+  text-align: center;
+`;
+
 export default function Login() {
   const [formData, setFormData] = useState({ email: '', password: '' });
+  const [error, setError] = useState<string | null>(null);
   const { auth, changeAuthStatus } = useMyContext();
   const navigate = useNavigate();
 
@@ -85,6 +96,7 @@ export default function Login() {
     const input = e.target as HTMLInputElement;
 
     setFormData({ ...formData, [input.id]: input.value });
+    setError(null);
   }
 
   async function onSubmitHandler(e: FormEvent) {
@@ -92,23 +104,26 @@ export default function Login() {
 
     if (!formData.email || !formData.password) return;
 
-    const { data } = await login(formData.email, formData.password);
+    const { data, error } = await login(formData.email, formData.password);
 
     if (data?.user) changeAuthStatus(AuthStatus.Auth);
+
+    setError(error);
   }
   return (
     <Container>
       <Form onSubmit={onSubmitHandler}>
         <Title>Sign in</Title>
-        <Field>
+        <Field isWrong={!!error}>
           <label htmlFor="email">Email</label>
           <Input type="text" id="email" value={formData.email} onChange={onChangeHandler} />
         </Field>
-        <Field>
+        <Field isWrong={!!error}>
           <label htmlFor="password">Password</label>
           <Input type="password" id="password" value={formData.password} onChange={onChangeHandler} />
         </Field>
         <Button style={{ margin: '0 auto' }}>Sign in</Button>
+        <ErrorMessage>{error}</ErrorMessage>
       </Form>
     </Container>
   );
