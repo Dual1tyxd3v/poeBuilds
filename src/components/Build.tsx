@@ -7,6 +7,7 @@ import { Build as BuildType, Item } from '../types';
 import BuildHeader from './BuildHeader';
 import Items from './Items';
 import PreviewItem from './PreviewItem';
+import Trade from './Trade';
 
 const Container = styled.div`
   flex: 1;
@@ -60,6 +61,7 @@ export default function Build() {
     <Container>
       <BuildHeader name={name} pob={pob} />
       <Wrapper>
+        <Trade setActive={setActive} items={items} buildItems={build.items} />
         <Items setActive={setActive} items={items} buildItems={build.items} />
         <PreviewItem item={activeItem} />
       </Wrapper>
