@@ -1,6 +1,7 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { AppRoute } from '../config';
+import Button from '../ui/Button';
 
 const Container = styled.div`
   height: 100vh;
@@ -17,37 +18,13 @@ const Title = styled.h3`
   margin-bottom: 3rem;
 `;
 
-const MyLink = styled(Link)`
-  background: url(/images/button.png) center center no-repeat;
-  background-size: contain;
-  display: block;
-  font-size: 2rem;
-  color: #000;
-  font-family: 'FontinCard';
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  filter: brightness(0.8);
-  transition: filter 0.2s ease, text-shadow 0.2s ease;
-
-  &:hover {
-    filter: brightness(1);
-    text-shadow: 2px 4px 8px var(--color-text--active);
-  }
-
-  & span {
-    display: block;
-    padding: 5rem 10rem;
-  }
-`;
-
 export default function NotFound() {
+  const navigate = useNavigate();
+
   return (
     <Container>
       <Title>Page not found</Title>
-      <MyLink to={AppRoute.Main}>
-        <span>Back to main</span>
-      </MyLink>
+      <Button onClick={() => navigate(AppRoute.Main)}>Back to main</Button>
     </Container>
   );
 }

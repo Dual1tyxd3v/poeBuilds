@@ -6,6 +6,7 @@ import Build from './pages/Build';
 import { createContext, useCallback, useEffect, useState } from 'react';
 import { checkAuth } from './api';
 import NotFound from './pages/NotFound';
+import Login from './pages/Login';
 
 const MyContext = createContext<null | { auth: AuthStatus; changeAuthStatus: (v: AuthStatus) => void }>(null);
 
@@ -20,10 +21,11 @@ const router = createBrowserRouter([
       },
     ],
   },
-  /* {
+  {
     path: AppRoute.Login,
-    element: ...
+    element: <Login />
   },
+  /* 
   {
     path: AppRoute.Add,
     element: ...
