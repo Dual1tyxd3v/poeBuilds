@@ -12,10 +12,14 @@ const Container = styled.div`
   flex: 1;
   color: var(--color-text--primary);
   overflow: auto;
+  display: flex;
+  flex-direction: column;
 `;
 
 const Wrapper = styled.div`
   display: flex;
+  flex: 1;
+  align-items: center;
 `;
 
 export default function Build() {
@@ -35,6 +39,7 @@ export default function Build() {
       setBuild(resp.data.build[0]);
       setItems(resp.data.items);
     }
+    setActiveItem(null);
 
     if (!id) return;
 

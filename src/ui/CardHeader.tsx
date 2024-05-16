@@ -1,12 +1,20 @@
 import { styled } from 'styled-components';
 
-const Header = styled.div`
+type HeaderProps = {
+  type: string;
+};
+
+const Header = styled.div<HeaderProps>`
   height: 5.4rem;
-  background: url(src/assets/head--left.png) top left no-repeat, url(src/assets/head--right.png) top right no-repeat,
-    url(src/assets/head--mid.png) center top repeat-x;
+  background: ${({ type }) => `url(src/assets/head--${type}-left.png) top left no-repeat,
+    url(src/assets/head--${type}-right.png) top right no-repeat, url(src/assets/head--${type}-mid.png) center top repeat-x;`};
   font-family: 'FontinCard';
   text-align: center;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 export default Header;

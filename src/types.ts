@@ -27,7 +27,7 @@ export type GetBuildDetailsResponse = {
 
 type ItemStats = {
   name: string[];
-  text: string;
+  text: string | null;
   level: number;
   explicit: string[];
   implicit: string;
@@ -39,7 +39,7 @@ export type Item = {
   img: string;
   difficulty: number;
   tradeUrl: string;
-  type: string;
+  type: 'unique' | 'rare';
   source: string;
   stats: ItemStats;
 };

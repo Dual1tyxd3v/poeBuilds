@@ -7,6 +7,8 @@
   --color-bg--active: #5a3806;
   --color-divider: #5e4f45;
   --color-text--mods: rgb(136, 136, 255);
+  --color-text--unique: rgb(175, 96, 37);
+  --color-text--default: rgb(127, 127, 127);
 }
 
 *,
@@ -30,6 +32,12 @@
 @font-face {
   font-family: 'FontinBold';
   src: url(./assets/FontinSans_Cyrillic_B_46b.otf);
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'FontinItalic';
+  src: url(./assets/FontinSans_Cyrillic_I_46b.otf);
   font-display: swap;
 }
 
@@ -66,6 +74,8 @@ body {
   padding: 3rem;
 }
 
-@keyframes l19 { 
-  100%{transform: rotate(1turn)}
+@keyframes l19 {
+  100% {
+    transform: rotate(1turn);
+  }
 }

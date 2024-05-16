@@ -25,7 +25,7 @@ const Link = styled.a`
 
 export default function BuildHeader({ name, pob }: BuildHeaderProps) {
   return (
-    <Header>
+    <Header type="unique">
       <Title>{name}</Title>
       <Link href={pob} target="_blank">
         {pob}
