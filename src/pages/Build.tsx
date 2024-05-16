@@ -62,7 +62,7 @@ export default function Build() {
       <BuildHeader name={name} pob={pob} />
       <Wrapper>
         <Trade setActive={setActive} items={items} buildItems={build.items} />
-        <Items setActive={setActive} items={items} buildItems={build.items} />
+        <Items activeId={activeItem?.id || null} setActive={setActive} items={items} buildItems={build.items} />
         <PreviewItem item={activeItem} />
       </Wrapper>
     </Container>

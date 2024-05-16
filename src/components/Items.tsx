@@ -6,6 +6,7 @@ type ItemsProps = {
   items: ItemType[];
   buildItems: BuildItem[];
   setActive: (v: null | ItemType) => void;
+  activeId: null | number;
 };
 
 const Container = styled.div`
@@ -25,11 +26,17 @@ const Container = styled.div`
   justify-content: center;
 `;
 
-export default function Items({ items, buildItems, setActive }: ItemsProps) {
+export default function Items({ items, buildItems, setActive, activeId }: ItemsProps) {
   return (
     <Container>
       {buildItems.map(({ id, slot }, i) => (
-        <Item setActive={setActive} key={`${i}_${id}`} slot={slot} item={items.filter((item) => item.id === id)[0]} />
+        <Item
+          isActive={id === activeId}
+          setActive={setActive}
+          key={`${i}_${id}`}
+          slot={slot}
+          item={items.filter((item) => item.id === id)[0]}
+        />
       ))}
     </Container>
   );
