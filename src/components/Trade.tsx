@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { BuildItem, Item } from '../types';
+import { CURRENT_LEAGUE } from '../config';
 
 type TradeProps = {
   items: Item[];
@@ -57,7 +58,7 @@ export default function Trade({ items, buildItems, setActive }: TradeProps) {
               <Link
                 onMouseEnter={() => onHoverHandler(item)}
                 onMouseLeave={() => onHoverHandler()}
-                href={item.tradeUrl}
+                href={item.tradeUrl.replace('%LEAGUE%', CURRENT_LEAGUE)}
                 target="_blank"
               >
                 {slot}

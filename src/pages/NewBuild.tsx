@@ -15,14 +15,14 @@ const Tabs = styled.div`
 `;
 
 type TabProps = {
-  isActive: boolean;
+  $isactive: boolean;
 };
 
 const Tab = styled.button<TabProps>`
   height: 26px;
   border: none;
   background-color: transparent;
-  color: ${(props) => (props.isActive ? 'var(--color-text--active)' : 'var(--color-text--default)')};
+  color: ${(props) => (props.$isactive ? 'var(--color-text--active)' : 'var(--color-text--default)')};
   font-size: 16px;
   padding: 5px 0;
   font-family: 'FontinCard';
@@ -30,7 +30,7 @@ const Tab = styled.button<TabProps>`
   background: url(/images/tab--left.png) no-repeat, url(/images/tab--right.png) no-repeat;
   background-position: top left, top right;
   background: url(/images/tab--mid.png) repeat-x;
-  background-position: ${(props) => (props.isActive ? 'bottom' : 'top')} center;
+  background-position: ${(props) => (props.$isactive ? 'bottom' : 'top')} center;
   position: relative;
 
   &::after,
@@ -46,13 +46,13 @@ const Tab = styled.button<TabProps>`
   &::after {
     left: -19px;
     background: url(/images/tab--left.png) no-repeat;
-    background-position: ${(props) => (props.isActive ? 'bottom' : 'top')} left;
+    background-position: ${(props) => (props.$isactive ? 'bottom' : 'top')} left;
   }
 
   &::before {
     right: -19px;
     background: url(/images/tab--right.png) no-repeat;
-    background-position: ${(props) => (props.isActive ? 'bottom' : 'top')} right;
+    background-position: ${(props) => (props.$isactive ? 'bottom' : 'top')} right;
   }
 `;
 
@@ -72,8 +72,8 @@ export default function NewBuild() {
     }
 
     getData();
+    console.log(items);
   }, []);
-  console.log(items);
 
   function onTabChangeHandler(e: MouseEvent) {
     const btn = e.target as HTMLButtonElement;
@@ -86,14 +86,14 @@ export default function NewBuild() {
   return (
     <>
       <Tabs>
-        <Tab isActive={activeTab === 'item'} data-id="item" onClick={onTabChangeHandler}>
+        <Tab $isactive={activeTab === 'item'} data-id="item" onClick={onTabChangeHandler}>
           Item
         </Tab>
-        <Tab isActive={activeTab === 'build'} data-id="build" onClick={onTabChangeHandler}>
+        <Tab $isactive={activeTab === 'build'} data-id="build" onClick={onTabChangeHandler}>
           Build
         </Tab>
       </Tabs>
-      <Wrapper>test</Wrapper>
+      <Wrapper style={{height: 'calc(100% - 52px)'}}>test</Wrapper>
     </>
   );
 }

@@ -51,7 +51,6 @@ function App() {
     getUser();
   }, [auth]);
 
-  console.log(auth);
   const changeAuthStatus = useCallback((value: AuthStatus) => {
     setAuth(value);
   }, []);
