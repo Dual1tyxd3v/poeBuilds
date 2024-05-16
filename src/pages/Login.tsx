@@ -79,13 +79,13 @@ export default function Login() {
     if (auth === 'auth') navigate(AppRoute.Main);
   }, [auth, navigate]);
 
+  if (auth === 'unknown') return <Loader />;
+
   function onChangeHandler(e: ChangeEvent) {
     const input = e.target as HTMLInputElement;
 
     setFormData({ ...formData, [input.id]: input.value });
   }
-
-  if (auth === 'unknown') return <Loader />;
 
   async function onSubmitHandler(e: FormEvent) {
     e.preventDefault();

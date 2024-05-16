@@ -1,10 +1,13 @@
 import styled from 'styled-components';
 import { Build } from '../types';
-import { SORT_TAB } from '../config';
+import { AppRoute, SORT_TAB } from '../config';
 import { useEffect, useState } from 'react';
 import { sortBuilds } from '../utils';
 import { HiArrowsUpDown } from 'react-icons/hi2';
+import { TiPlus } from 'react-icons/ti';
 import NavTab from './NavTab';
+import { useMyContext } from '../hooks/useMyContext';
+import { useNavigate } from 'react-router-dom';
 
 type NavProps = {
   builds: Build[];
@@ -60,7 +63,7 @@ const Option = styled.option`
   background-color: var(--color-bg);
 `;
 
-const BtnReverseSort = styled.button`
+const Button = styled.button`
   border: none;
   background-color: transparent;
   color: var(--color-text--primary);
@@ -78,6 +81,8 @@ const BtnReverseSort = styled.button`
 export default function Nav({ builds }: NavProps) {
   const [sort, setSort] = useState(SORT_TAB.Name);
   const [sortedBuilds, setSortedBuilds] = useState(sortBuilds(builds, sort));
+  const { auth } = useMyContext();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setSortedBuilds((prev) => sortBuilds(prev, sort));
@@ -94,9 +99,18 @@ export default function Nav({ builds }: NavProps) {
             </Option>
           ))}
         </Select>
-        <BtnReverseSort onClick={() => setSortedBuilds((prev) => [...prev].reverse())}>
-          <HiArrowsUpDown size={'2rem'} />
-        </BtnReverseSort>
+        <Button
+          title="Reverse"
+          aria-label="Reverse tabs"
+          onClick={() => setSortedBuilds((prev) => [...prev].reverse())}
+        >
+          <HiArrowsUpDown size="2rem" />
+        </Button>
+        {auth === 'auth' && (
+          <Button title="Adde new" aria-label="Add new build" onClick={() => navigate(AppRoute.Add)}>
+            <TiPlus size="2rem" />
+          </Button>
+        )}
       </SelectBlock>
 
       <ul>
