@@ -8,7 +8,7 @@ import { checkAuth } from './api';
 import NotFound from './pages/NotFound';
 import Login from './pages/Login';
 
-const MyContext = createContext<null | { auth: AuthStatus; changeAuthStatus: (v: AuthStatus) => void }>(null);
+export const MyContext = createContext<null | { auth: AuthStatus; changeAuthStatus: (v: AuthStatus) => void }>(null);
 
 const router = createBrowserRouter([
   {
@@ -23,7 +23,7 @@ const router = createBrowserRouter([
   },
   {
     path: AppRoute.Login,
-    element: <Login />
+    element: <Login />,
   },
   /* 
   {
@@ -49,7 +49,8 @@ function App() {
 
     getUser();
   }, [auth]);
-
+  
+  console.log(auth);
   const changeAuthStatus = useCallback((value: AuthStatus) => {
     setAuth(value);
   }, []);

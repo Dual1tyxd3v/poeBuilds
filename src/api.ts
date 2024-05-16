@@ -49,3 +49,17 @@ export const getBuildDetails = async (id: number) => {
     return { data: null, error: (e as Error).message };
   }
 };
+
+export const login = async (email: string, password: string) => {
+  try {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    return { data, error: error?.toString() || null };
+  } catch (e) {
+    console.log(e);
+    return { data: null, error: (e as Error).message };
+  }
+};

@@ -1,5 +1,11 @@
 import styled from 'styled-components';
 import Button from '../ui/Button';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { login } from '../api';
+import { useMyContext } from '../hooks/useMyContext';
+import { useNavigate } from 'react-router-dom';
+import { AppRoute, AuthStatus } from '../config';
+import Loader from '../components/Loader';
 
 const Container = styled.div`
   height: 100%;
@@ -65,17 +71,42 @@ const Input = styled.input`
 `;
 
 export default function Login() {
+  const [formData, setFormData] = useState({ email: '', password: '' });
+  const { auth, changeAuthStatus } = useMyContext();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (auth === 'auth') navigate(AppRoute.Main);
+  }, [auth, navigate]);
+
+  function onChangeHandler(e: ChangeEvent) {
+    const input = e.target as HTMLInputElement;
+
+    setFormData({ ...formData, [input.id]: input.value });
+  }
+
+  if (auth === 'unknown') return <Loader />;
+
+  async function onSubmitHandler(e: FormEvent) {
+    e.preventDefault();
+
+    if (!formData.email || !formData.password) return;
+
+    const { data } = await login(formData.email, formData.password);
+
+    if (data?.user) changeAuthStatus(AuthStatus.Auth);
+  }
   return (
     <Container>
-      <Form>
+      <Form onSubmit={onSubmitHandler}>
         <Title>Sign in</Title>
         <Field>
           <label htmlFor="email">Email</label>
-          <Input type="text" id="email" />
+          <Input type="text" id="email" value={formData.email} onChange={onChangeHandler} />
         </Field>
         <Field>
           <label htmlFor="password">Password</label>
-          <Input type="text" id="password" />
+          <Input type="password" id="password" value={formData.password} onChange={onChangeHandler} />
         </Field>
         <Button style={{ margin: '0 auto' }}>Sign in</Button>
       </Form>
