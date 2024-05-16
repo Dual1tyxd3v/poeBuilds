@@ -27,9 +27,7 @@ export default function BuildHeader({ name, pob }: BuildHeaderProps) {
   return (
     <Header type="unique">
       <Title>{name}</Title>
-      <Link href={pob} target="_blank">
-        {pob}
-      </Link>
+      <Link href={`pob://${pob}`}>{pob}</Link>
     </Header>
   );
 }

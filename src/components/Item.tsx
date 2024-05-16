@@ -13,9 +13,6 @@ const Slot = styled.div<SlotProps>`
   grid-area: ${(props) => props.slot};
   background-color: ${(props) => (props.isActive ? 'var(--color-bg--active)' : 'rgb(15, 23, 42)')};
   padding: 0.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
 type ItemProps = {

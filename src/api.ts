@@ -63,3 +63,14 @@ export const login = async (email: string, password: string) => {
     return { data: null, error: (e as Error).message };
   }
 };
+
+export const getAllItems = async () => {
+  try {
+    const { data, error } = await supabase.from('items').select('*');
+
+    return { data, error: error?.toString() || null };
+  } catch (e) {
+    console.log(e);
+    return { data: null, error: (e as Error).message };
+  }
+};
