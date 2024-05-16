@@ -1,13 +1,13 @@
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { getBuildDetails } from '../api';
-import Loader from './Loader';
+import Loader from '../components/Loader';
 import { useCallback, useEffect, useState } from 'react';
 import { Build as BuildType, Item } from '../types';
-import BuildHeader from './BuildHeader';
-import Items from './Items';
-import PreviewItem from './PreviewItem';
-import Trade from './Trade';
+import BuildHeader from '../components/BuildHeader';
+import Items from '../components/Items';
+import PreviewItem from '../components/PreviewItem';
+import Trade from '../components/Trade';
 
 const Container = styled.div`
   flex: 1;

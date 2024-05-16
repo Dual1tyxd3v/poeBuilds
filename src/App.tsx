@@ -2,9 +2,10 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { AppRoute, AuthStatus } from './config';
 import Layout from './components/Layout';
-import Build from './components/Build';
+import Build from './pages/Build';
 import { createContext, useCallback, useEffect, useState } from 'react';
 import { checkAuth } from './api';
+import NotFound from './pages/NotFound';
 
 const MyContext = createContext<null | { auth: AuthStatus; changeAuthStatus: (v: AuthStatus) => void }>(null);
 
@@ -14,7 +15,7 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       {
-        path: '/:id',
+        path: 'build/:id',
         element: <Build />,
       },
     ],
@@ -27,11 +28,14 @@ const router = createBrowserRouter([
     path: AppRoute.Add,
     element: ...
   } */
+  {
+    path: '*',
+    element: <NotFound />,
+  },
 ]);
 
 function App() {
   const [auth, setAuth] = useState(AuthStatus.Unknown);
-
 
   useEffect(() => {
     if (auth !== 'unknown') return;

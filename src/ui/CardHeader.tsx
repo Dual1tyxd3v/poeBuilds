@@ -6,8 +6,8 @@ type HeaderProps = {
 
 const Header = styled.div<HeaderProps>`
   height: 5.4rem;
-  background: ${({ type }) => `url(src/assets/head--${type}-left.png) top left no-repeat,
-    url(src/assets/head--${type}-right.png) top right no-repeat, url(src/assets/head--${type}-mid.png) center top repeat-x;`};
+  background: ${({ type }) => `url(../src/assets/head--${type}-left.png) top left no-repeat,
+    url(../src/assets/head--${type}-right.png) top right no-repeat, url(../src/assets/head--${type}-mid.png) center top repeat-x;`};
   font-family: 'FontinCard';
   text-align: center;
   overflow: hidden;

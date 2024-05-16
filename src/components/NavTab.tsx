@@ -41,7 +41,7 @@ export default function NavTab({ build }: NavTabProps) {
   const { id, name, difficulty, damage } = build;
   return (
     <li>
-      <A to={`${AppRoute.Main}${id}`}>
+      <A to={`${AppRoute.Main}build/${id}`}>
         <Title>{name}</Title>
         <Description>
           Damage: <Value>{damage}</Value> Difficulty: <Value>{difficulty}</Value>
