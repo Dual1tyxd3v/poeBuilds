@@ -35,8 +35,8 @@ type ItemStats = {
 
 export type Item = {
   id: number;
-  name: string;
   img: string;
+  slot: string;
   difficulty: number;
   tradeUrl: string;
   type: 'unique' | 'rare';

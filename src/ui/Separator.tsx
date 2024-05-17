@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 type SeparatorProps = {
-  type: 'unique' | 'rare';
+  type: string;
 };
 
 const Separator = styled.div<SeparatorProps>`

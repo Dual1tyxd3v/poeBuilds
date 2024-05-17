@@ -13,7 +13,9 @@ export enum AuthStatus {
   Unknown = 'unknown',
 }
 
-// export const SORT_TAB = ['name', 'damage', 'difficulty'];
+export const SLOTS = ['weapon', 'helmet', 'body', 'amulet', 'ring', 'gloves', 'boots', 'belt', 'cluster'].sort((a, b) =>
+  a.localeCompare(b)
+);
 
 export enum SORT_TAB {
   Name = 'name',

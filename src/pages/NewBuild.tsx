@@ -7,6 +7,7 @@ import { MouseEvent, useEffect, useState } from 'react';
 import { Item } from '../types';
 import { getAllItems } from '../api';
 import styled from 'styled-components';
+import NewItem from '../components/NewItem';
 
 const Tabs = styled.div`
   display: flex;
@@ -93,7 +94,7 @@ export default function NewBuild() {
           Build
         </Tab>
       </Tabs>
-      <Wrapper style={{height: 'calc(100% - 52px)'}}>test</Wrapper>
+      <Wrapper style={{ height: 'calc(100% - 52px)' }}>{activeTab === 'item' ? <NewItem /> : null}</Wrapper>
     </>
   );
 }

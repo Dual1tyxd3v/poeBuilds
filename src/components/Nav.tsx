@@ -8,6 +8,8 @@ import { TiPlus } from 'react-icons/ti';
 import NavTab from './NavTab';
 import { useMyContext } from '../hooks/useMyContext';
 import { useNavigate } from 'react-router-dom';
+import Select from '../ui/Select';
+import Option from '../ui/Option';
 
 type NavProps = {
   builds: Build[];
@@ -45,22 +47,6 @@ const SelectBlock = styled.div`
 const SelectLabel = styled.p`
   font-size: 1.6rem;
   color: var(--color-text--primary);
-`;
-
-const Select = styled.select`
-  background-color: transparent;
-  color: var(--color-text--active);
-  font-family: 'FontinBold';
-  text-transform: capitalize;
-  padding: 0.2rem;
-
-  &:focus {
-    outline: none;
-  }
-`;
-
-const Option = styled.option`
-  background-color: var(--color-bg);
 `;
 
 const Button = styled.button`
