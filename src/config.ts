@@ -13,6 +13,19 @@ export enum AuthStatus {
   Unknown = 'unknown',
 }
 
+export const TEMPLATE_SLOTS = [
+  'weapon1',
+  'weapon2',
+  'helmet',
+  'body',
+  'amulet',
+  'gloves',
+  'boots',
+  'ring1',
+  'ring2',
+  'belt',
+];
+
 export const SLOTS = ['weapon', 'helmet', 'body', 'amulet', 'ring', 'gloves', 'boots', 'belt', 'cluster'].sort((a, b) =>
   a.localeCompare(b)
 );

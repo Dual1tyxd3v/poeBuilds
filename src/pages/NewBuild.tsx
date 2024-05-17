@@ -9,6 +9,7 @@ import { getAllItems } from '../api';
 import styled from 'styled-components';
 import NewItem from '../components/NewItem';
 import { FaLongArrowAltLeft } from 'react-icons/fa';
+import CreateBuild from '../components/CreateBuild';
 
 const Tabs = styled.div`
   display: flex;
@@ -79,12 +80,18 @@ export default function NewBuild() {
   const [items, setItems] = useState<null | Item[]>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('item');
+  const [error, setError] = useState<null | string>(null);
 
   useEffect(() => {
     async function getData() {
       const { data } = await getAllItems();
 
-      data && setItems(data);
+      if (!data) {
+        setError(error);
+        return;
+      }
+
+      setItems(data);
       setIsLoading(false);
     }
 
@@ -99,11 +106,12 @@ export default function NewBuild() {
 
   if (auth === 'unknown' || isLoading) return <Loader />;
   if (auth === 'noauth') navigate(AppRoute.Main);
+  if (error) return <p>error</p>;
 
   return (
     <>
       <Tabs>
-        <BackLink to={AppRoute.Main}>
+        <BackLink to={AppRoute.Main} aria-label="Back to home" title="Back to home">
           <FaLongArrowAltLeft size="3rem" />
         </BackLink>
         <Tab $isactive={activeTab === 'item'} data-id="item" onClick={onTabChangeHandler}>
@@ -113,7 +121,9 @@ export default function NewBuild() {
           Build
         </Tab>
       </Tabs>
-      <Wrapper style={{ height: 'calc(100% - 52px)' }}>{activeTab === 'item' ? <NewItem /> : null}</Wrapper>
+      <Wrapper style={{ height: 'calc(100% - 52px)' }}>
+        {activeTab === 'item' ? <NewItem /> : <CreateBuild items={items as Item[]} />}
+      </Wrapper>
     </>
   );
 }

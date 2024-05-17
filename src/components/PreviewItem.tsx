@@ -19,9 +19,24 @@ const Card = styled.div`
   margin-bottom: 2rem;
 `;
 
-const CardTitle = styled.p`
+type CardTitleProps = {
+  $type: string;
+};
+
+const CardTitle = styled.p<CardTitleProps>`
   font-family: 'FontinCard';
-  color: var(--color-text--unique);
+  color: var(
+    ${(props) => {
+      switch (props.$type) {
+        case 'unique':
+          return '--color-text--unique';
+        case 'rare':
+          return '--color-text--primary';
+        default:
+          return '#000';
+      }
+    }}
+  );
 `;
 
 const CardContent = styled.div`
@@ -54,13 +69,15 @@ const Info = styled.p`
     color: var(--color-text--active);
     text-transform: capitalize;
   }
-`
+`;
 
 export default function PreviewItem({ item }: PreviewItemProps) {
   if (!item) return <Container></Container>;
 
   const {
-    type, source, difficulty,
+    type,
+    source,
+    difficulty,
     stats: { name, level, implicit, explicit, text },
   } = item;
   return (
@@ -68,7 +85,9 @@ export default function PreviewItem({ item }: PreviewItemProps) {
       <Card>
         <CardHeader type={type} style={{ fontSize: '1.7rem' }}>
           {name.map((text) => (
-            <CardTitle key={text}>{text}</CardTitle>
+            <CardTitle $type={type} key={text}>
+              {text}
+            </CardTitle>
           ))}
         </CardHeader>
         <CardContent>
@@ -86,13 +105,19 @@ export default function PreviewItem({ item }: PreviewItemProps) {
           {text && (
             <>
               <Separator type={type} />
-              <CardTitle style={{ fontFamily: 'FontinItalic' }}>{text}</CardTitle>
+              <CardTitle $type={type} style={{ fontFamily: 'FontinItalic' }}>
+                {text}
+              </CardTitle>
             </>
           )}
         </CardContent>
       </Card>
-      <Info>Drops from <span>{source}</span></Info>
-      <Info>Difficulty rate <span>{difficulty}</span></Info>
+      <Info>
+        Drops from <span>{source}</span>
+      </Info>
+      <Info>
+        Difficulty rate <span>{difficulty}</span>
+      </Info>
     </Container>
   );
 }

@@ -1,5 +1,5 @@
 import { CURRENT_LEAGUE, SORT_TAB } from './config';
-import { Build, NewItemType } from './types';
+import { Build, Item, NewItemType } from './types';
 
 export const sortBuilds = (builds: Build[], sortBy: SORT_TAB) => {
   const result = [...builds];
@@ -34,4 +34,15 @@ export const createNewItem = (formData: NewItemType) => {
       implicit,
     },
   };
+};
+
+export const getImageById = (id: number, items: Item[]) => {
+  return items.find((item) => item.id === id)?.img;
+};
+
+export const getTotalDifficulty = (items: Item[], idList: number[]) => {
+  return idList.reduce((a, b) => {
+    const currentItem = items.find((item) => item.id === b);
+    return a + (currentItem?.difficulty || 0);
+  }, 0);
 };

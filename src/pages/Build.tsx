@@ -21,6 +21,7 @@ const Wrapper = styled.div`
   display: flex;
   flex: 1;
   align-items: center;
+  overflow: auto;
 `;
 
 export default function Build() {

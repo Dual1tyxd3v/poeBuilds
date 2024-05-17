@@ -9,6 +9,7 @@ import Option from '../ui/Option';
 import Select from '../ui/Select';
 import Separator from '../ui/Separator';
 import styled from 'styled-components';
+import FormFieldColumn from '../ui/FormFieldColumn';
 
 type ItemInfoProps = {
   formData: NewItemType;
@@ -23,12 +24,6 @@ const Container = styled.div`
   background: url(/images/login-bg.png) center center no-repeat;
   background-size: 100% 100%;
   padding: 2rem;
-`;
-
-const FieldInfo = styled(Field)`
-  gap: 0.5rem;
-  flex-direction: column;
-  width: 100%;
 `;
 
 export default function ItemInfo({ formData, onChangeHandler }: ItemInfoProps) {
@@ -55,22 +50,22 @@ export default function ItemInfo({ formData, onChangeHandler }: ItemInfoProps) {
         </Select>
       </Field>
       <Separator type={rarity} />
-      <FieldInfo>
+      <FormFieldColumn>
         <Label htmlFor="image">Image url</Label>
         <Input value={image} data-id="image" id="image" type="text" onChange={onChangeHandler} required />
-      </FieldInfo>
+      </FormFieldColumn>
       <Separator type={rarity} />
-      <FieldInfo>
+      <FormFieldColumn>
         <Label htmlFor="trade">Trade url</Label>
         <Input value={tradeUrl} data-id="tradeUrl" id="trade" type="text" onChange={onChangeHandler} required />
-      </FieldInfo>
+      </FormFieldColumn>
       <Separator type={rarity} />
-      <FieldInfo>
+      <FormFieldColumn>
         <Label htmlFor="source">Source</Label>
         <Input value={source} data-id="source" id="source" type="text" onChange={onChangeHandler} required />
-      </FieldInfo>
+      </FormFieldColumn>
       <Separator type={rarity} />
-      <FieldInfo style={{ marginBottom: '1rem' }}>
+      <FormFieldColumn style={{ marginBottom: '1rem' }}>
         <Label htmlFor="difficulty">Difficulty</Label>
         <Input
           value={difficulty}
@@ -81,7 +76,7 @@ export default function ItemInfo({ formData, onChangeHandler }: ItemInfoProps) {
           max="2"
           min="0"
         />
-      </FieldInfo>
+      </FormFieldColumn>
       <Button>Add item</Button>
     </Container>
   );
