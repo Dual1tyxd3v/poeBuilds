@@ -1,8 +1,10 @@
 import styled from 'styled-components';
-import { ChangeEvent, useCallback, useState } from 'react';
+import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
 import { NewItemType } from '../types';
 import ItemTemplate from './ItemTemplate';
 import ItemInfo from './ItemInfo';
+import { createNewItem } from '../utils';
+import { createItem } from '../api';
 
 const Form = styled.form`
   flex: 1;
@@ -37,12 +39,18 @@ export default function NewItem() {
     [formData]
   );
 
+  async function onSubmitHandler(e: FormEvent) {
+    e.preventDefault();
+
+    const newItem = createNewItem(formData);
+    const { isSuccess } = await createItem(newItem);
+    alert(isSuccess);
+  }
+
   return (
-    <>
-      <Form>
-        <ItemTemplate formData={formData} onChangeHandler={onChangeHandler} />
-        <ItemInfo formData={formData} onChangeHandler={onChangeHandler} />
-      </Form>
-    </>
+    <Form onSubmit={onSubmitHandler}>
+      <ItemTemplate formData={formData} onChangeHandler={onChangeHandler} />
+      <ItemInfo formData={formData} onChangeHandler={onChangeHandler} />
+    </Form>
   );
 }

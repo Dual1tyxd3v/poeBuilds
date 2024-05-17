@@ -45,7 +45,10 @@ export default function ItemInfo({ formData, onChangeHandler }: ItemInfoProps) {
       <Separator type={rarity} />
       <Field>
         <Label>Slot</Label>
-        <Select data-id="slot" value={slot} onChange={onChangeHandler}>
+        <Select required data-id="slot" value={slot} onChange={onChangeHandler}>
+          <Option value="" style={{ display: 'none' }}>
+            ...
+          </Option>
           {SLOTS.map((slot, i) => (
             <Option key={`${i}_${slot}`}>{slot}</Option>
           ))}

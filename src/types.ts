@@ -54,7 +54,9 @@ export type Item = {
   slot: string;
   difficulty: number;
   tradeUrl: string;
-  type: 'unique' | 'rare';
+  type: string;
   source: string;
   stats: ItemStats;
 };
+
+export type CreateItem = Omit<Item, 'id'>;
