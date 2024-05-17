@@ -3,6 +3,21 @@ export type BuildItem = {
   slot: string;
 };
 
+export type NewItemType = {
+  name: string;
+  type: string;
+  level: number;
+  implicit: string;
+  rarity: string;
+  explicit: string;
+  description: string;
+  slot: string;
+  image: string;
+  tradeUrl: string;
+  source: string;
+  difficulty: number;
+};
+
 export type Build = {
   name: string;
   pob: string;

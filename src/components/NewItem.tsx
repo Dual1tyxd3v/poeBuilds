@@ -1,16 +1,15 @@
 import styled from 'styled-components';
-import Header from '../ui/CardHeader';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useCallback, useState } from 'react';
 import Separator from '../ui/Separator';
 import Select from '../ui/Select';
 import Option from '../ui/Option';
 import { SLOTS } from '../config';
 import Button from '../ui/Button';
-
-const ItemTemplate = styled.div`
-  width: 35rem;
-  border: 2px solid var(--color-border);
-`;
+import { NewItemType } from '../types';
+import Input from '../ui/NewItemInput';
+import Field from '../ui/NewItemField';
+import Label from '../ui/NewItemLabel';
+import ItemTemplate from './ItemTemplate';
 
 const Form = styled.form`
   flex: 1;
@@ -20,74 +19,10 @@ const Form = styled.form`
   gap: 10rem;
 `;
 
-const Input = styled.input`
-  outline: none;
-  background-color: var(--color-slot);
-  border: none;
-  width: 100%;
-  font-size: 1.4rem;
-  padding: 0.2rem;
-  color: var(--color-text--primary);
-  text-align: center;
-
-  &:placeholder-shown {
-    color: var(--color-text--default);
-  }
-
-  &:not(:last-child) {
-    margin-bottom: 0.5rem;
-  }
-
-  &:focus {
-    background-color: var(--color-bg--active);
-    color: #fff;
-  }
-`;
-
-const Container = styled.div`
-  background-color: #000;
-  padding: 1rem 1.5rem;
-`;
-
-const Field = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 2rem;
-`;
-
 const FieldInfo = styled(Field)`
   gap: 0.5rem;
   flex-direction: column;
   width: 100%;
-`;
-
-const Label = styled.label`
-  color: var(--color-text--default);
-  font-size: 1.6rem;
-  font-family: 'FontinCard';
-`;
-
-const ExplicitArea = styled.textarea`
-  outline: none;
-  background-color: var(--color-slot);
-  border: none;
-  font-size: 1.4rem;
-  padding: 0.2rem;
-  color: var(--color-text--primary);
-  width: 100%;
-  text-align: center;
-  resize: none;
-  height: 16rem;
-
-  &:placeholder-shown {
-    color: var(--color-text--default);
-  }
-
-  &:focus {
-    background-color: var(--color-bg--active);
-    color: #fff;
-  }
 `;
 
 const ItemInfo = styled.div`
@@ -101,7 +36,7 @@ const ItemInfo = styled.div`
 `;
 
 export default function NewItem() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<NewItemType>({
     name: '',
     type: '',
     level: 1,
@@ -116,75 +51,19 @@ export default function NewItem() {
     difficulty: 0,
   });
 
-  function onChangeHandler(e: ChangeEvent) {
-    const input = e.target as HTMLInputElement | HTMLSelectElement;
+  const onChangeHandler = useCallback(
+    (e: ChangeEvent) => {
+      const input = e.target as HTMLInputElement | HTMLSelectElement;
 
-    setFormData({ ...formData, [`${input.dataset.id}`]: input.value });
-  }
+      setFormData({ ...formData, [`${input.dataset.id}`]: input.value });
+    },
+    [formData]
+  );
+
   return (
     <>
       <Form>
-        <ItemTemplate>
-          <Header type={formData.rarity}>
-            <Input
-              style={{ width: '30rem' }}
-              placeholder="Name"
-              value={formData.name}
-              data-id="name"
-              type="text"
-              onChange={onChangeHandler}
-              required
-            />
-            <Input
-              style={{ width: '30rem' }}
-              placeholder="Type"
-              value={formData.type}
-              data-id="type"
-              type="text"
-              onChange={onChangeHandler}
-              required
-            />
-          </Header>
-          <Container>
-            <Field>
-              <Label htmlFor="level">Requires level</Label>
-              <Input
-                style={{ width: '5rem' }}
-                value={formData.level}
-                data-id="level"
-                type="number"
-                id="level"
-                onChange={onChangeHandler}
-                max="100"
-              />
-            </Field>
-            <Separator style={{ margin: '0.5rem 0' }} type={formData.rarity} />
-            <Input
-              placeholder="Implicit"
-              value={formData.implicit}
-              data-id="implicit"
-              type="text"
-              onChange={onChangeHandler}
-              required
-            />
-            <Separator style={{ margin: '0.5rem 0' }} type={formData.rarity} />
-            <ExplicitArea
-              placeholder="Explicit"
-              value={formData.explicit}
-              data-id="explicit"
-              onChange={onChangeHandler}
-              required
-            ></ExplicitArea>
-            <Separator style={{ margin: '0.5rem 0' }} type={formData.rarity} />
-            <ExplicitArea
-              placeholder="Description (not required)"
-              value={formData.description}
-              data-id="description"
-              onChange={onChangeHandler}
-              style={{ height: '4rem', fontFamily: 'FontinItalic' }}
-            ></ExplicitArea>
-          </Container>
-        </ItemTemplate>
+        <ItemTemplate formData={formData} onChangeHandler={onChangeHandler} />
         <ItemInfo>
           <Field>
             <Label>Type</Label>
