@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useMyContext } from '../hooks/useMyContext';
 import { AppRoute } from '../config';
 import Loader from '../components/Loader';
@@ -8,11 +8,13 @@ import { Item } from '../types';
 import { getAllItems } from '../api';
 import styled from 'styled-components';
 import NewItem from '../components/NewItem';
+import { FaLongArrowAltLeft } from 'react-icons/fa';
 
 const Tabs = styled.div`
   display: flex;
   justify-content: center;
   gap: 4rem;
+  position: relative;
 `;
 
 type TabProps = {
@@ -57,6 +59,20 @@ const Tab = styled.button<TabProps>`
   }
 `;
 
+const BackLink = styled(Link)`
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text--primary);
+  transition: color 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    color: var(--color-text--active);
+    transform: translateY(-50%) scaleX(1.2);
+  }
+`;
+
 export default function NewBuild() {
   const { auth } = useMyContext();
   const navigate = useNavigate();
@@ -87,6 +103,9 @@ export default function NewBuild() {
   return (
     <>
       <Tabs>
+        <BackLink to={AppRoute.Main}>
+          <FaLongArrowAltLeft size="3rem" />
+        </BackLink>
         <Tab $isactive={activeTab === 'item'} data-id="item" onClick={onTabChangeHandler}>
           Item
         </Tab>
