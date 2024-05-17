@@ -133,6 +133,7 @@ export default function NewItem() {
               data-id="name"
               type="text"
               onChange={onChangeHandler}
+              required
             />
             <Input
               style={{ width: '30rem' }}
@@ -141,6 +142,7 @@ export default function NewItem() {
               data-id="type"
               type="text"
               onChange={onChangeHandler}
+              required
             />
           </Header>
           <Container>
@@ -163,6 +165,7 @@ export default function NewItem() {
               data-id="implicit"
               type="text"
               onChange={onChangeHandler}
+              required
             />
             <Separator style={{ margin: '0.5rem 0' }} type={formData.rarity} />
             <ExplicitArea
@@ -170,6 +173,7 @@ export default function NewItem() {
               value={formData.explicit}
               data-id="explicit"
               onChange={onChangeHandler}
+              required
             ></ExplicitArea>
             <Separator style={{ margin: '0.5rem 0' }} type={formData.rarity} />
             <ExplicitArea
@@ -201,20 +205,34 @@ export default function NewItem() {
           <Separator type={formData.rarity} />
           <FieldInfo>
             <Label htmlFor="image">Image url</Label>
-            <Input value={formData.image} data-id="image" id="image" type="text" onChange={onChangeHandler} />
+            <Input value={formData.image} data-id="image" id="image" type="text" onChange={onChangeHandler} required />
           </FieldInfo>
           <Separator type={formData.rarity} />
           <FieldInfo>
             <Label htmlFor="trade">Trade url</Label>
-            <Input value={formData.tradeUrl} data-id="tradeUrl" id="trade" type="text" onChange={onChangeHandler} />
+            <Input
+              value={formData.tradeUrl}
+              data-id="tradeUrl"
+              id="trade"
+              type="text"
+              onChange={onChangeHandler}
+              required
+            />
           </FieldInfo>
           <Separator type={formData.rarity} />
           <FieldInfo>
             <Label htmlFor="source">Source</Label>
-            <Input value={formData.source} data-id="source" id="source" type="text" onChange={onChangeHandler} />
+            <Input
+              value={formData.source}
+              data-id="source"
+              id="source"
+              type="text"
+              onChange={onChangeHandler}
+              required
+            />
           </FieldInfo>
           <Separator type={formData.rarity} />
-          <FieldInfo style={{marginBottom: '1rem'}}>
+          <FieldInfo style={{ marginBottom: '1rem' }}>
             <Label htmlFor="difficulty">Difficulty</Label>
             <Input
               value={formData.difficulty}

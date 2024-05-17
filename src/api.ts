@@ -74,3 +74,17 @@ export const getAllItems = async () => {
     return { data: null, error: (e as Error).message };
   }
 };
+
+export const createItem = async () => {
+  try {
+    const { error } = await supabase
+      .from('items')
+      .insert([{ some_column: 'someValue', other_column: 'otherValue' }])
+      .select();
+
+    return { isSuccess: error ? false : true, error: error?.toString() || null };
+  } catch (e) {
+    console.log(e);
+    return { isSuccess: false, error: (e as Error).message };
+  }
+};
