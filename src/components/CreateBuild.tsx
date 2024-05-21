@@ -5,13 +5,8 @@ import { TEMPLATE_SLOTS } from '../config';
 import Slot from '../ui/Slot';
 import { MouseEvent, useState } from 'react';
 import { getImageById, getTotalDifficulty } from '../utils';
-import FormFieldColumn from '../ui/FormFieldColumn';
-import Label from '../ui/NewItemLabel';
-import Field from '../ui/NewItemField';
-import Separator from '../ui/Separator';
-import Input from '../ui/NewItemInput';
-import Button from '../ui/Button';
 import ActiveCard from './ActiveCard';
+import BuildStats from './BuildStats';
 
 type CreateBuildProps = {
   items: Item[];
@@ -42,40 +37,6 @@ const ListItem = styled.li`
   &:hover {
     background-color: var(--color-bg--hover);
   }
-`;
-
-const BuildStats = styled.div`
-  background: url(/images/login-bg.png) no-repeat;
-  background-size: 100% 100%;
-  padding: 2rem;
-  width: 30rem;
-  font-family: 'FontinCard';
-`;
-
-const Title = styled.h3`
-  font-size: 2.6rem;
-  text-align: center;
-  color: var(--color-text--primary);
-  position: relative;
-  padding-bottom: 2rem;
-  margin-bottom: 2rem;
-
-  &::after {
-    content: '';
-    height: 1.2rem;
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    background: url(/images/title-border.png) no-repeat;
-    background-size: contain;
-  }
-`;
-
-const Difficulty = styled.span`
-  color: #fff;
-  font-weight: 600;
-  font-size: 1.6rem;
 `;
 
 export default function CreateBuild({ items }: CreateBuildProps) {
@@ -145,24 +106,7 @@ export default function CreateBuild({ items }: CreateBuildProps) {
           </Slot>
         ))}
       </ItemsContainer>
-      <BuildStats>
-        <Title>Build stats</Title>
-        <Field style={{ justifyContent: 'flex-start' }}>
-          <Label>Total difficulty</Label>
-          <Difficulty> {buildStats.difficulty}</Difficulty>
-        </Field>
-        <Separator style={{ margin: '0.5rem 0' }} type="rare" />
-        <FormFieldColumn>
-          <Label htmlFor="name">Name</Label>
-          <Input id="name" />
-        </FormFieldColumn>
-        <Separator style={{ margin: '0.5rem 0' }} type="rare" />
-        <FormFieldColumn style={{ marginBottom: '4rem' }}>
-          <Label htmlFor="damage">Damage</Label>
-          <Input type="number" id="damage" min="0" />
-        </FormFieldColumn>
-        <Button>Add Build</Button>
-      </BuildStats>
+      <BuildStats difficulty={buildStats.difficulty} />
     </Wrapper>
   );
 }
