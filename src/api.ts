@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import { AuthStatus } from './config';
-import { Build, CreateItem, Item } from './types';
+import { Build, CreateItem, Item, NewBuild } from './types';
 const supabaseUrl = 'https://pvtdmhslfcmhyjopnlen.supabase.co';
 const supabaseKey =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB2dGRtaHNsZmNtaHlqb3BubGVuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTU2ODQ3NjUsImV4cCI6MjAzMTI2MDc2NX0.G1oeZ4L99pZqcDA7oo3K1XmI694j7fAq1OgmrlFJTCc';
@@ -83,5 +83,16 @@ export const createItem = async (newItem: CreateItem) => {
   } catch (e) {
     console.log(e);
     return { isSuccess: false, error: (e as Error).message };
+  }
+};
+
+export const createBuild = async (newBuild: NewBuild) => {
+  try {
+    const { data, error } = await supabase.from('builds').insert([newBuild]).select();
+
+    return { data, error: error?.toString() || null };
+  } catch (e) {
+    console.log(e);
+    return { data: null, error: (e as Error).message };
   }
 };

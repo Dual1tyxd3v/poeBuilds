@@ -5,9 +5,12 @@ import Field from '../ui/NewItemField';
 import Input from '../ui/NewItemInput';
 import Label from '../ui/NewItemLabel';
 import Separator from '../ui/Separator';
+import { NewBuildFormData } from '../types';
+import { ChangeEvent } from 'react';
 
 type BuildStatsProps = {
-  difficulty: number;
+  formData: NewBuildFormData;
+  changeFormData: (v: NewBuildFormData) => void;
 };
 
 const Title = styled.h3`
@@ -44,7 +47,13 @@ const Container = styled.div`
   font-family: 'FontinCard';
 `;
 
-export default function BuildStats({ difficulty }: BuildStatsProps) {
+export default function BuildStats({ formData, changeFormData }: BuildStatsProps) {
+  const { name, damage, pob, difficulty } = formData;
+
+  function onChangeHandler(e: ChangeEvent) {
+    const input = e.target as HTMLInputElement;
+    changeFormData({ ...formData, [input.id]: input.value });
+  }
   return (
     <Container>
       <Title>Build stats</Title>
@@ -55,12 +64,17 @@ export default function BuildStats({ difficulty }: BuildStatsProps) {
       <Separator style={{ margin: '0.5rem 0' }} type="rare" />
       <FormFieldColumn>
         <Label htmlFor="name">Name</Label>
-        <Input id="name" />
+        <Input required onChange={onChangeHandler} id="name" value={name} />
+      </FormFieldColumn>
+      <Separator style={{ margin: '0.5rem 0' }} type="rare" />
+      <FormFieldColumn>
+        <Label htmlFor="pob">Pob Url</Label>
+        <Input required onChange={onChangeHandler} id="pob" value={pob} />
       </FormFieldColumn>
       <Separator style={{ margin: '0.5rem 0' }} type="rare" />
       <FormFieldColumn style={{ marginBottom: '4rem' }}>
         <Label htmlFor="damage">Damage</Label>
-        <Input type="number" id="damage" min="0" />
+        <Input required onChange={onChangeHandler} type="number" id="damage" min="0" value={damage} />
       </FormFieldColumn>
       <Button>Add Build</Button>
     </Container>

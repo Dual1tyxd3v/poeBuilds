@@ -27,10 +27,14 @@ export type Build = {
   items: BuildItem[];
 };
 
+export type NewBuild = Omit<Build, 'id'>;
+
 export type GetBuildsResponse = {
   data: Build[];
   error: string | null;
 };
+
+export type NewBuildFormData = Omit<NewBuild, 'items'>;
 
 export type GetBuildDetailsResponse = {
   data: {

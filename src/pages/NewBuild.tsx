@@ -126,7 +126,11 @@ export default function NewBuild() {
         </Tab>
       </Tabs>
       <Wrapper style={{ height: 'calc(100% - 52px)' }}>
-        {activeTab === 'item' ? <NewItem updateData={updateData} /> : <CreateBuild items={items || []} />}
+        {activeTab === 'item' ? (
+          <NewItem updateData={updateData} />
+        ) : (
+          <CreateBuild updateData={updateData} items={items || []} />
+        )}
       </Wrapper>
     </>
   );

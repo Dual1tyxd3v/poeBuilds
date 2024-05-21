@@ -1,15 +1,19 @@
 import styled from 'styled-components';
-import { Item } from '../types';
+import { BuildItem, Item, NewBuildFormData } from '../types';
 import ItemsContainer from '../ui/ItemsContainer';
 import { TEMPLATE_SLOTS } from '../config';
 import Slot from '../ui/Slot';
-import { MouseEvent, useState } from 'react';
-import { getImageById, getTotalDifficulty } from '../utils';
+import { FormEvent, MouseEvent, useCallback, useState } from 'react';
+import { getImageById, getTotalDifficulty, hasAllItems } from '../utils';
 import ActiveCard from './ActiveCard';
 import BuildStats from './BuildStats';
+import Message from './Message';
+import { createBuild } from '../api';
+import Loader from './Loader';
 
 type CreateBuildProps = {
   items: Item[];
+  updateData: () => void;
 };
 
 const Wrapper = styled.form`
@@ -44,15 +48,22 @@ const ListItem = styled.li<ListItemProps>`
   }
 `;
 
-export default function CreateBuild({ items }: CreateBuildProps) {
+export default function CreateBuild({ items, updateData }: CreateBuildProps) {
   const [templateItems, setTemplateItems] = useState(() =>
     TEMPLATE_SLOTS.reduce((a, b) => {
       return { ...a, [b]: 0 };
     }, {})
   );
   const [activeSlot, setActiveSlot] = useState<null | string>(null);
-  const [buildStats, setBuildStats] = useState({ name: '', damage: 0, difficulty: 0 });
   const [activeItem, setActiveItem] = useState<null | Item>(null);
+  const [formData, setFormData] = useState({
+    name: '',
+    pob: '',
+    damage: 0,
+    difficulty: -1,
+  });
+  const [message, setMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const filteredItems = items.filter((item) => activeSlot?.includes(item.slot));
 
@@ -60,6 +71,10 @@ export default function CreateBuild({ items }: CreateBuildProps) {
     const slot = (e.currentTarget as HTMLDivElement).dataset.slot as string;
     setActiveSlot(slot);
   }
+
+  const changeFormData = useCallback((v: NewBuildFormData) => {
+    setFormData(v);
+  }, []);
 
   function onListItemClickHandler(e: MouseEvent) {
     const id = (e.target as HTMLLIElement).dataset.id || 0;
@@ -69,10 +84,38 @@ export default function CreateBuild({ items }: CreateBuildProps) {
     setActiveSlot(() => null);
     setActiveItem(null);
 
-    setBuildStats(() => ({ ...buildStats, difficulty: getTotalDifficulty(items, Object.values(newTemplateItems)) }));
+    setFormData(() => ({ ...formData, difficulty: getTotalDifficulty(items, Object.values(newTemplateItems)) }));
   }
+
+  async function onSubmitHandler(e: FormEvent) {
+    e.preventDefault();
+
+    const newItems = Object.entries(templateItems).map((item) => ({ id: item[1] as number, slot: item[0] }));
+
+    if (!hasAllItems(newItems as BuildItem[])) {
+      setMessage('Some items are missed');
+      return;
+    }
+
+    setIsLoading(true);
+    const { name, damage, difficulty, pob } = formData;
+    const { error } = await createBuild({ name, pob, damage, difficulty, items: newItems });
+
+    if (error) {
+      setMessage(error);
+      return;
+    }
+
+    setMessage('Build successefully added');
+    setIsLoading(false);
+    updateData();
+  }
+
+  if (isLoading) return <Loader />;
+
   return (
-    <Wrapper>
+    <Wrapper onSubmit={onSubmitHandler}>
+      {message && <Message msg={message} clearMessage={() => setMessage('')} />}
       {activeItem && <ActiveCard item={activeItem} />}
       <ItemsListContainer>
         {activeSlot && filteredItems.length && (
@@ -113,7 +156,7 @@ export default function CreateBuild({ items }: CreateBuildProps) {
           </Slot>
         ))}
       </ItemsContainer>
-      <BuildStats difficulty={buildStats.difficulty} />
+      <BuildStats formData={formData} changeFormData={changeFormData} />
     </Wrapper>
   );
 }
