@@ -60,3 +60,8 @@ export type Item = {
 };
 
 export type CreateItem = Omit<Item, 'id'>;
+
+export type MousePosition = {
+  x: number;
+  y: number;
+};

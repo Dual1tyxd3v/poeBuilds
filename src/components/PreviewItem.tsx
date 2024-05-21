@@ -5,6 +5,7 @@ import Separator from '../ui/Separator';
 
 type PreviewItemProps = {
   item: Item | null;
+  needInfo?: boolean;
 };
 
 const Container = styled.div`
@@ -71,7 +72,7 @@ const Info = styled.p`
   }
 `;
 
-export default function PreviewItem({ item }: PreviewItemProps) {
+export default function PreviewItem({ item, needInfo = true }: PreviewItemProps) {
   if (!item) return <Container></Container>;
 
   const {
@@ -112,12 +113,16 @@ export default function PreviewItem({ item }: PreviewItemProps) {
           )}
         </CardContent>
       </Card>
-      <Info>
-        Drops from <span>{source}</span>
-      </Info>
-      <Info>
-        Difficulty rate <span>{difficulty}</span>
-      </Info>
+      {needInfo && (
+        <>
+          <Info>
+            Drops from <span>{source}</span>
+          </Info>
+          <Info>
+            Difficulty rate <span>{difficulty}</span>
+          </Info>
+        </>
+      )}
     </Container>
   );
 }

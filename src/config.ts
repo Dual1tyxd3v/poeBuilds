@@ -35,3 +35,5 @@ export enum SORT_TAB {
   Damage = 'damage',
   Difficulty = 'difficulty',
 }
+
+export const ACTIVE_CARD_OFFSET = 20;
