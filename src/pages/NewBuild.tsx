@@ -3,7 +3,7 @@ import { useMyContext } from '../hooks/useMyContext';
 import { AppRoute } from '../config';
 import Loader from '../components/Loader';
 import Wrapper from '../ui/Wrapper';
-import { MouseEvent, useEffect, useState } from 'react';
+import { MouseEvent, useCallback, useEffect, useState } from 'react';
 import { Item } from '../types';
 import { getAllItems } from '../api';
 import styled from 'styled-components';
@@ -81,10 +81,11 @@ export default function NewBuild() {
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('item');
   const [error, setError] = useState<null | string>(null);
+  const [updateTrigger, setUpdateTrigger] = useState(0);
 
   useEffect(() => {
     async function getData() {
-      const { data } = await getAllItems();
+      const { data, error } = await getAllItems();
 
       if (!data) {
         setError(error);
@@ -96,7 +97,10 @@ export default function NewBuild() {
     }
 
     getData();
-    console.log(items);
+  }, [updateTrigger]);
+
+  const updateData = useCallback(() => {
+    setUpdateTrigger((prev) => ++prev);
   }, []);
 
   function onTabChangeHandler(e: MouseEvent) {
@@ -122,7 +126,7 @@ export default function NewBuild() {
         </Tab>
       </Tabs>
       <Wrapper style={{ height: 'calc(100% - 52px)' }}>
-        {activeTab === 'item' ? <NewItem /> : <CreateBuild items={items as Item[]} />}
+        {activeTab === 'item' ? <NewItem updateData={updateData} /> : <CreateBuild items={items || []} />}
       </Wrapper>
     </>
   );

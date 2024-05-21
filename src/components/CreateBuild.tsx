@@ -100,6 +100,7 @@ export default function CreateBuild({ items }: CreateBuildProps) {
             onMouseEnter={() =>
               setActiveItem(items.find((item) => item.id === templateItems[slot as keyof typeof templateItems]) || null)
             }
+            onMouseLeave={() => setActiveItem(null)}
             onClick={onSlotClickHandler}
             data-slot={slot}
             $slot={slot}

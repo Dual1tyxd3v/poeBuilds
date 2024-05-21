@@ -29,6 +29,7 @@ const Wrapper = styled.div.attrs<WrapperProps>((props) => {
   width: 40px;
   height: 50px;
   background-color: #fff;
+  z-index: 4;
 `;
 
 export default function ActiveCard({ item }: ActiveCardProps) {

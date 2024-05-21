@@ -37,6 +37,7 @@ const Button = styled.button`
     font-weight: 600;
     padding: 0.5rem 1.5rem;
     background-color: #5c3e28;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
 
   &:hover span {

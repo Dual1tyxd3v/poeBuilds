@@ -38,13 +38,13 @@ const Title = styled.h3`
 `;
 
 type FieldProps = {
-  isWrong: boolean;
+  $iswrong: boolean;
 };
 
 const Field = styled.div<FieldProps>`
   display: flex;
   flex-direction: column;
-  border: ${(props) => (props.isWrong ? '1px solid red' : '1px solid var(--color-text--primary)')};
+  border: ${(props) => (props.$iswrong ? '1px solid red' : '1px solid var(--color-text--primary)')};
   font-size: 1.6rem;
   min-width: 40rem;
   padding: 0.5rem;
@@ -114,11 +114,11 @@ export default function Login() {
     <Container>
       <Form onSubmit={onSubmitHandler}>
         <Title>Sign in</Title>
-        <Field isWrong={!!error}>
+        <Field $iswrong={!!error}>
           <label htmlFor="email">Email</label>
           <Input type="text" id="email" value={formData.email} onChange={onChangeHandler} />
         </Field>
-        <Field isWrong={!!error}>
+        <Field $iswrong={!!error}>
           <label htmlFor="password">Password</label>
           <Input type="password" id="password" value={formData.password} onChange={onChangeHandler} />
         </Field>

@@ -31,10 +31,14 @@ const initFormState = {
   difficulty: 0,
 };
 
-export default function NewItem() {
+type NewItemProps = {
+  updateData: () => void;
+}
+
+export default function NewItem({updateData}: NewItemProps) {
   const [formData, setFormData] = useState<NewItemType>(initFormState);
   const [isLoading, setIsLoading] = useState(false);
-  const [message, setMessage] = useState('Item successefully added');
+  const [message, setMessage] = useState('');
 
   const onChangeHandler = useCallback(
     (e: ChangeEvent) => {
@@ -59,6 +63,7 @@ export default function NewItem() {
 
     setMessage('Item successefully added');
     setFormData(initFormState);
+    updateData();
   }
 
   if (isLoading) return <Loader />;
