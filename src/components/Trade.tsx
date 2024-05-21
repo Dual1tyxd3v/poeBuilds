@@ -34,6 +34,7 @@ const Link = styled.a`
   font-size: 1.6rem;
   color: var(--color-text--primary);
   text-transform: capitalize;
+  display: block;
   transition: color 0.2s ease;
 
   &:hover {

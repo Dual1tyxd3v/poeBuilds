@@ -60,7 +60,7 @@ export default function CreateBuild({ items, updateData }: CreateBuildProps) {
     name: '',
     pob: '',
     damage: 0,
-    difficulty: -1,
+    difficulty: 0,
   });
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
