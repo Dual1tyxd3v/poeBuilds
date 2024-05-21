@@ -28,14 +28,19 @@ const ItemsList = styled.ul`
   border-right: 2px solid var(--color-border);
 `;
 
-const ListItem = styled.li`
+type ListItemProps = {
+  $isactive: boolean;
+};
+
+const ListItem = styled.li<ListItemProps>`
   cursor: pointer;
   padding: 1rem;
   font-size: 1.6rem;
   color: var(--color-text--primary);
+  background-color: ${(props) => (props.$isactive ? 'var(--color-bg--active)' : 'transparent')};
 
   &:hover {
-    background-color: var(--color-bg--hover);
+    background-color: ${(props) => (props.$isactive ? 'var(--color-bg--active)' : 'var(--color-bg--hover)')};
   }
 `;
 
@@ -81,6 +86,7 @@ export default function CreateBuild({ items }: CreateBuildProps) {
                 onClick={onListItemClickHandler}
                 data-id={item.id}
                 key={`${i}_list_${item.id}`}
+                $isactive={item.id === templateItems[activeSlot as keyof typeof templateItems]}
               >
                 {item.stats.name.join(' ')}
               </ListItem>
@@ -97,7 +103,7 @@ export default function CreateBuild({ items }: CreateBuildProps) {
             onClick={onSlotClickHandler}
             data-slot={slot}
             $slot={slot}
-            $isactive={false}
+            $isactive={activeSlot === slot}
             key={`${i}_${slot}slot`}
           >
             {!!templateItems[slot as keyof typeof templateItems] && (
