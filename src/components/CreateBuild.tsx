@@ -1,15 +1,16 @@
 import styled from 'styled-components';
-import { BuildItem, Item, NewBuildFormData } from '../types';
+import { BuildItem, Item, NewBuildFormData, TemplateItems } from '../types';
 import ItemsContainer from '../ui/ItemsContainer';
 import { TEMPLATE_SLOTS } from '../config';
 import Slot from '../ui/Slot';
 import { FormEvent, MouseEvent, useCallback, useState } from 'react';
-import { getImageById, getTotalDifficulty, hasAllItems } from '../utils';
+import { getImageById, hasAllItems } from '../utils';
 import ActiveCard from './ActiveCard';
 import BuildStats from './BuildStats';
 import Message from './Message';
 import { createBuild } from '../api';
 import Loader from './Loader';
+import ItemsList from './ItemsList';
 
 type CreateBuildProps = {
   items: Item[];
@@ -20,32 +21,6 @@ const Wrapper = styled.form`
   display: flex;
   justify-content: center;
   flex: 1;
-`;
-
-const ItemsListContainer = styled.div`
-  width: 30rem;
-  overflow: hidden;
-`;
-
-const ItemsList = styled.ul`
-  height: 100%;
-  border-right: 2px solid var(--color-border);
-`;
-
-type ListItemProps = {
-  $isactive: boolean;
-};
-
-const ListItem = styled.li<ListItemProps>`
-  cursor: pointer;
-  padding: 1rem;
-  font-size: 1.6rem;
-  color: var(--color-text--primary);
-  background-color: ${(props) => (props.$isactive ? 'var(--color-bg--active)' : 'transparent')};
-
-  &:hover {
-    background-color: ${(props) => (props.$isactive ? 'var(--color-bg--active)' : 'var(--color-bg--hover)')};
-  }
 `;
 
 export default function CreateBuild({ items, updateData }: CreateBuildProps) {
@@ -65,27 +40,26 @@ export default function CreateBuild({ items, updateData }: CreateBuildProps) {
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const filteredItems = items.filter((item) => activeSlot?.includes(item.slot));
-
   function onSlotClickHandler(e: MouseEvent) {
     const slot = (e.currentTarget as HTMLDivElement).dataset.slot as string;
     setActiveSlot(slot);
   }
 
   const changeFormData = useCallback((v: NewBuildFormData) => {
-    setFormData(v);
+    setFormData(() => v);
   }, []);
 
-  function onListItemClickHandler(e: MouseEvent) {
-    const id = (e.target as HTMLLIElement).dataset.id || 0;
-    const newTemplateItems = { ...templateItems, [activeSlot as string]: +id };
-    setTemplateItems(newTemplateItems);
+  const changeTemplateItems = useCallback((v: TemplateItems) => {
+    setTemplateItems(v);
+  }, []);
 
-    setActiveSlot(() => null);
-    setActiveItem(null);
+  const changeActiveSlot = useCallback((v: null | string) => {
+    setActiveSlot(v);
+  }, []);
 
-    setFormData(() => ({ ...formData, difficulty: getTotalDifficulty(items, Object.values(newTemplateItems)) }));
-  }
+  const changeActiveItem = useCallback((v: null | Item) => {
+    setActiveItem(v);
+  }, []);
 
   async function onSubmitHandler(e: FormEvent) {
     e.preventDefault();
@@ -117,26 +91,16 @@ export default function CreateBuild({ items, updateData }: CreateBuildProps) {
     <Wrapper onSubmit={onSubmitHandler}>
       {message && <Message msg={message} clearMessage={() => setMessage('')} />}
       {activeItem && <ActiveCard item={activeItem} />}
-      <ItemsListContainer>
-        {activeSlot && filteredItems.length && (
-          <ItemsList>
-            {filteredItems.map((item, i) => (
-              <ListItem
-                onMouseEnter={() => setActiveItem(() => item)}
-                onMouseLeave={() => {
-                  setActiveItem(() => null);
-                }}
-                onClick={onListItemClickHandler}
-                data-id={item.id}
-                key={`${i}_list_${item.id}`}
-                $isactive={item.id === templateItems[activeSlot as keyof typeof templateItems]}
-              >
-                {item.stats.name.join(' ')}
-              </ListItem>
-            ))}
-          </ItemsList>
-        )}
-      </ItemsListContainer>
+      <ItemsList
+        items={items}
+        activeSlot={activeSlot}
+        formData={formData}
+        templateItems={templateItems as TemplateItems}
+        changeFormData={changeFormData}
+        changeActiveItem={changeActiveItem}
+        changeActiveSlot={changeActiveSlot}
+        changeTemplateItems={changeTemplateItems}
+      />
       <ItemsContainer>
         {TEMPLATE_SLOTS.map((slot, i) => (
           <Slot

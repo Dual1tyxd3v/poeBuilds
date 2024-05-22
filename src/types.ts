@@ -27,6 +27,19 @@ export type Build = {
   items: BuildItem[];
 };
 
+export type TemplateItems = {
+  weapon1: number;
+  weapon2: number;
+  ring1: number;
+  ring2: number;
+  helmet: number;
+  amulet: number;
+  body: number;
+  gloves: number;
+  belt: number;
+  boots: number;
+};
+
 export type NewBuild = Omit<Build, 'id'>;
 
 export type GetBuildsResponse = {
