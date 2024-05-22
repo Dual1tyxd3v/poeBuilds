@@ -8,7 +8,7 @@ import Controls from './Controls';
 
 const ItemsListContainer = styled.div`
   width: 30rem;
-  overflow: hidden;
+  overflow-y: auto;
 `;
 
 const ItemList = styled.ul`
@@ -27,15 +27,25 @@ const ListItem = styled.li<ListItemProps>`
   color: var(--color-text--primary);
   background-color: ${(props) => (props.$isactive ? 'var(--color-bg--active)' : 'transparent')};
   display: flex;
-  
+  position: relative;
+
+  & div[data-id='controls'] {
+    clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
+    transition: clip-path 0.3s ease;
+  }
 
   &:hover {
     background-color: ${(props) => (props.$isactive ? 'var(--color-bg--active)' : 'var(--color-bg--hover)')};
+
+    & div[data-id='controls'] {
+      clip-path: polygon(calc(100% - 15px) 0, 100% 0, 100% 100%, calc(100% - 15px) 100%);
+    }
   }
 `;
 
 const ItemDescription = styled.div`
   padding: 1rem;
+  padding-right: 1.5rem;
   flex: 1;
 `;
 

@@ -96,3 +96,14 @@ export const createBuild = async (newBuild: NewBuild) => {
     return { data: null, error: (e as Error).message };
   }
 };
+
+export const deleteItem = async (id: number) => {
+  try {
+    const { error } = await supabase.from('items').delete().eq('id', id);
+
+    return { error: error?.toString() || null };
+  } catch (e) {
+    console.log(e);
+    return { error: (e as Error).message };
+  }
+};
