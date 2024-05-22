@@ -2,7 +2,7 @@
 import styled from 'styled-components';
 import { getTotalDifficulty } from '../utils';
 import { Item, NewBuildFormData, TemplateItems } from '../types';
-import { ChangeEvent, MouseEvent, useState } from 'react';
+import { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import Input from '../ui/NewItemInput';
 
 const ItemsListContainer = styled.div`
@@ -68,6 +68,10 @@ export default function ItemsList({
   changeActiveItem,
 }: ItemListProps) {
   const [search, setSearch] = useState('');
+
+  useEffect(() => {
+    setSearch('');
+  }, [activeSlot]);
 
   const filteredItems = items.filter(
     (item) => activeSlot?.includes(item.slot) && item.stats.name.join(' ').toLowerCase().includes(search.toLowerCase())
