@@ -34,6 +34,7 @@ const Wrapper = styled.div.attrs<WrapperProps>((props) => {
 
 export default function ActiveCard({ item }: ActiveCardProps) {
   const [mousePosition, setMousePosition] = useState<MousePosition>({ x: 0, y: 0 });
+  
   useEffect(() => {
     const getMousePosition = (e: MouseEventInit) => {
       const { clientX: x, clientY: y } = e;

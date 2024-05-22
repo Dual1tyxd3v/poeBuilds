@@ -4,6 +4,7 @@ import { getTotalDifficulty } from '../utils';
 import { Item, NewBuildFormData, TemplateItems } from '../types';
 import { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import Input from '../ui/NewItemInput';
+import Controls from './Controls';
 
 const ItemsListContainer = styled.div`
   width: 30rem;
@@ -22,14 +23,20 @@ type ListItemProps = {
 
 const ListItem = styled.li<ListItemProps>`
   cursor: pointer;
-  padding: 1rem;
   font-size: 1.6rem;
   color: var(--color-text--primary);
   background-color: ${(props) => (props.$isactive ? 'var(--color-bg--active)' : 'transparent')};
+  display: flex;
+  
 
   &:hover {
     background-color: ${(props) => (props.$isactive ? 'var(--color-bg--active)' : 'var(--color-bg--hover)')};
   }
+`;
+
+const ItemDescription = styled.div`
+  padding: 1rem;
+  flex: 1;
 `;
 
 const Search = styled(Input)`
@@ -99,17 +106,21 @@ export default function ItemsList({
           <Search placeholder="Search" value={search} onChange={onChangeHandler} />
           <Separator></Separator>
           {filteredItems.map((item, i) => (
-            <ListItem
-              onMouseEnter={() => changeActiveItem(item)}
-              onMouseLeave={() => {
-                changeActiveItem(null);
-              }}
-              onClick={onListItemClickHandler}
-              data-id={item.id}
-              key={`${i}_list_${item.id}`}
-              $isactive={item.id === templateItems[activeSlot as keyof typeof templateItems]}
-            >
-              {item.stats.name.join(' ')}
+            <ListItem $isactive={item.id === templateItems[activeSlot as keyof typeof templateItems]}>
+              <ItemDescription
+                onMouseEnter={() => {
+                  changeActiveItem(item);
+                }}
+                onMouseLeave={() => {
+                  changeActiveItem(null);
+                }}
+                onClick={onListItemClickHandler}
+                data-id={item.id}
+                key={`${i}_list_${item.id}`}
+              >
+                {item.stats.name.join(' ')}
+              </ItemDescription>
+              <Controls />
             </ListItem>
           ))}
         </ItemList>
