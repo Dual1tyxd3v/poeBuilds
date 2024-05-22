@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import styled from 'styled-components';
 import { getTotalDifficulty } from '../utils';
 import { Item, NewBuildFormData, TemplateItems } from '../types';
-import { MouseEvent } from 'react';
+import { ChangeEvent, MouseEvent, useState } from 'react';
+import Input from '../ui/NewItemInput';
 
 const ItemsListContainer = styled.div`
   width: 30rem;
@@ -9,6 +11,7 @@ const ItemsListContainer = styled.div`
 `;
 
 const ItemList = styled.ul`
+  padding-top: 1rem;
   height: 100%;
   border-right: 2px solid var(--color-border);
 `;
@@ -27,6 +30,20 @@ const ListItem = styled.li<ListItemProps>`
   &:hover {
     background-color: ${(props) => (props.$isactive ? 'var(--color-bg--active)' : 'var(--color-bg--hover)')};
   }
+`;
+
+const Search = styled(Input)`
+  margin: 0 auto 1rem !important;
+  width: 90%;
+  display: block;
+`;
+
+const Separator = styled.div`
+  width: 90%;
+  height: 2px;
+  background-color: var(--color-divider);
+  margin: 0 auto;
+  margin-bottom: 1rem;
 `;
 
 type ItemListProps = {
@@ -50,7 +67,11 @@ export default function ItemsList({
   changeActiveSlot,
   changeActiveItem,
 }: ItemListProps) {
-  const filteredItems = items.filter((item) => activeSlot?.includes(item.slot));
+  const [search, setSearch] = useState('');
+
+  const filteredItems = items.filter(
+    (item) => activeSlot?.includes(item.slot) && item.stats.name.join(' ').toLowerCase().includes(search.toLowerCase())
+  );
 
   function onListItemClickHandler(e: MouseEvent) {
     const id = (e.target as HTMLLIElement).dataset.id || 0;
@@ -62,10 +83,17 @@ export default function ItemsList({
 
     changeFormData({ ...formData, difficulty: getTotalDifficulty(items, Object.values(newTemplateItems)) });
   }
+
+  function onChangeHandler(e: ChangeEvent) {
+    const { value } = e.target as HTMLInputElement;
+    setSearch(value);
+  }
   return (
     <ItemsListContainer>
-      {activeSlot && filteredItems.length && (
+      {activeSlot && (
         <ItemList>
+          <Search placeholder="Search" value={search} onChange={onChangeHandler} />
+          <Separator></Separator>
           {filteredItems.map((item, i) => (
             <ListItem
               onMouseEnter={() => changeActiveItem(item)}
