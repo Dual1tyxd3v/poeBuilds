@@ -3,10 +3,9 @@ import { AppRoute } from '../config';
 import { Build } from '../types';
 import styled from 'styled-components';
 import Controls from './Controls';
-import { useCallback, useState } from 'react';
-import { deleteBuild } from '../api';
-import Loader from './Loader';
-import Message from './Message';
+import { useCallback } from 'react';
+import { useAppDispatch } from '../store';
+import { deleteBuildAction, getBuildsAction } from '../store/async-actions';
 
 type NavTabProps = {
   build: Build;
@@ -55,22 +54,18 @@ const Value = styled.span`
 `;
 
 export default function NavTab({ build }: NavTabProps) {
+  const dispatch = useAppDispatch();
   const { id, name, difficulty, damage } = build;
-  const [message, setMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
 
   const onDeleteAction = useCallback(async () => {
-    setIsLoading(true);
-    const { error } = await deleteBuild(id);
-    setIsLoading(false);
+    const { payload } = await dispatch(deleteBuildAction(id));
+    const { isSuccess } = payload as { isSuccess: boolean; error: string };
 
-    setMessage(error || 'Build successefully deleted');
-  }, [id]);
+    isSuccess && dispatch(getBuildsAction());
+  }, [id, dispatch]);
 
-  if (isLoading) return <Loader />;
   return (
     <Li>
-      {message && <Message msg={message} />}
       <A to={`${AppRoute.Main}build/${id}`}>
         <Title>{name}</Title>
         <Description>

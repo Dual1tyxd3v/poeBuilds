@@ -116,9 +116,9 @@ export const deleteBuild = async (id: number) => {
   try {
     const { error } = await supabase.from('builds').delete().eq('id', id);
 
-    return { error: error?.toString() || null };
+    return { isSuccess: error ? false : true, error: error?.toString() || 'Build successefully deleted' };
   } catch (e) {
     console.log(e);
-    return { error: (e as Error).message };
+    return { isSuccess: false, error: (e as Error).message };
   }
 };
