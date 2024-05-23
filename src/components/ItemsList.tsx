@@ -143,7 +143,10 @@ export default function ItemsList({
           <Search placeholder="Search" value={search} onChange={onChangeHandler} />
           <Separator></Separator>
           {filteredItems.map((item, i) => (
-            <ListItem $isactive={item.id === templateItems[activeSlot as keyof typeof templateItems]}>
+            <ListItem
+              key={`item_${i}_${item.id}`}
+              $isactive={item.id === templateItems[activeSlot as keyof typeof templateItems]}
+            >
               <ItemDescription
                 onMouseEnter={() => {
                   changeActiveItem(item);
