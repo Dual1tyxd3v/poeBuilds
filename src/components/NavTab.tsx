@@ -2,6 +2,7 @@ import { NavLink } from 'react-router-dom';
 import { AppRoute } from '../config';
 import { Build } from '../types';
 import styled from 'styled-components';
+import Controls from './Controls';
 
 type NavTabProps = {
   build: Build;
@@ -13,10 +14,19 @@ const A = styled(NavLink)`
   text-align: center;
   font-family: 'Fontin';
   padding: 0.5rem 0;
+  position: relative;
   transition: background-color 0.2s ease;
 
+  & div[data-id='controls'] {
+    clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
+    transition: clip-path 0.3s ease;
+  }
   &:hover {
     background-color: var(--color-bg--hover);
+
+    & div[data-id='controls'] {
+      clip-path: polygon(calc(100% - 15px) 0, 100% 0, 100% 100%, calc(100% - 15px) 100%);
+    }
   }
 
   &.active {
@@ -46,6 +56,7 @@ export default function NavTab({ build }: NavTabProps) {
         <Description>
           Damage: <Value>{damage}</Value> Difficulty: <Value>{difficulty}</Value>
         </Description>
+        <Controls deleteAction={() => console.log('123')} />
       </A>
     </li>
   );
