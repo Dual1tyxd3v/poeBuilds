@@ -65,20 +65,28 @@ const MenuButton = styled.div`
   }
 `;
 
-export default function Controls() {
+type ControlsProps = {
+  deleteAction: () => void;
+};
+
+export default function Controls({ deleteAction }: ControlsProps) {
   const [isActive, setIsActive] = useState(false);
 
   function onClickHandler(e: MouseEvent) {
     e.stopPropagation();
+    const { id } = (e.target as HTMLButtonElement).dataset;
+    if (id === 'delete') {
+      deleteAction();
+    }
   }
   return (
     <Container $isactive={isActive} onClick={() => setIsActive((prev) => !prev)} data-id="controls">
       <Menu $isactive={isActive}>
-        <MenuButton onClick={onClickHandler}>
+        <MenuButton data-id="edit" onClick={onClickHandler}>
           <MdEdit size="1.5rem" />
           Edit
         </MenuButton>
-        <MenuButton onClick={onClickHandler}>
+        <MenuButton data-id="delete" onClick={onClickHandler}>
           <MdDeleteForever size="1.5rem" />
           Delete
         </MenuButton>

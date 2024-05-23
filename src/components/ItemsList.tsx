@@ -1,10 +1,12 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import styled from 'styled-components';
 import { getTotalDifficulty } from '../utils';
 import { Item, NewBuildFormData, TemplateItems } from '../types';
-import { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
+import { ChangeEvent, MouseEvent, useCallback, useEffect, useState } from 'react';
 import Input from '../ui/NewItemInput';
 import Controls from './Controls';
+import { deleteItem } from '../api';
+import Loader from './Loader';
+import Message from './Message';
 
 const ItemsListContainer = styled.div`
   width: 30rem;
@@ -70,6 +72,7 @@ type ItemListProps = {
   changeTemplateItems: (v: TemplateItems) => void;
   changeActiveSlot: (v: null | string) => void;
   changeActiveItem: (v: null | Item) => void;
+  updateData: () => void;
   formData: NewBuildFormData;
   templateItems: TemplateItems;
 };
@@ -83,8 +86,11 @@ export default function ItemsList({
   changeTemplateItems,
   changeActiveSlot,
   changeActiveItem,
+  updateData,
 }: ItemListProps) {
   const [search, setSearch] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     setSearch('');
@@ -109,8 +115,24 @@ export default function ItemsList({
     const { value } = e.target as HTMLInputElement;
     setSearch(value);
   }
+
+  const onDeleteAction = useCallback(
+    async (id: number) => {
+      setIsLoading(true);
+      const { error } = await deleteItem(id);
+
+      setMessage(error || 'Item successefully deleted');
+
+      setIsLoading(false);
+      if (!error) updateData();
+    },
+    [updateData]
+  );
+
+  if (isLoading) return <Loader />;
   return (
     <ItemsListContainer>
+      {message && <Message msg={message} clearMessage={() => setMessage('')} />}
       {activeSlot && (
         <ItemList>
           <Search placeholder="Search" value={search} onChange={onChangeHandler} />
@@ -130,7 +152,7 @@ export default function ItemsList({
               >
                 {item.stats.name.join(' ')}
               </ItemDescription>
-              <Controls />
+              <Controls deleteAction={() => onDeleteAction(item.id)} />
             </ListItem>
           ))}
         </ItemList>

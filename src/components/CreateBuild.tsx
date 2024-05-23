@@ -100,6 +100,7 @@ export default function CreateBuild({ items, updateData }: CreateBuildProps) {
         changeActiveItem={changeActiveItem}
         changeActiveSlot={changeActiveSlot}
         changeTemplateItems={changeTemplateItems}
+        updateData={updateData}
       />
       <ItemsContainer>
         {TEMPLATE_SLOTS.map((slot, i) => (
