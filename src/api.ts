@@ -23,7 +23,7 @@ export const getBuilds = async () => {
   try {
     const { data, error } = await supabase.from('builds').select('*');
 
-    return { data: data as Build[], error: error ? error.toString() : null };
+    return { data: (data as Build[]) || [], error: error?.toString() || '' };
   } catch (e) {
     console.log(e);
     return { data: [], error: (e as Error).message };

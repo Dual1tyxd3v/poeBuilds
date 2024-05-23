@@ -1,3 +1,5 @@
+import { AuthStatus } from './config';
+
 export type BuildItem = {
   id: number;
   slot: string;
@@ -38,6 +40,14 @@ export type TemplateItems = {
   gloves: number;
   belt: number;
   boots: number;
+};
+
+export type InitState = {
+  items: Item[];
+  builds: Build[];
+  isLoading: boolean;
+  message: string;
+  authStatus: AuthStatus;
 };
 
 export type NewBuild = Omit<Build, 'id'>;

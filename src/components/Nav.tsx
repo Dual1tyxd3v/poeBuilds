@@ -71,8 +71,8 @@ export default function Nav({ builds }: NavProps) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setSortedBuilds((prev) => sortBuilds(prev, sort));
-  }, [sort]);
+    setSortedBuilds(() => sortBuilds(builds, sort));
+  }, [sort, builds]);
 
   return (
     <Navigation>

@@ -20,10 +20,6 @@ const A = styled(NavLink)`
   padding: 0.5rem 0;
   transition: background-color 0.2s ease;
 
-  &:hover {
-    background-color: var(--color-bg--hover);
-  }
-
   &.active {
     background-color: var(--color-bg--active);
   }
@@ -37,6 +33,8 @@ const Li = styled.li`
   }
 
   &:hover {
+    background-color: var(--color-bg--hover);
+
     & div[data-id='controls'] {
       clip-path: polygon(calc(100% - 15px) 0, 100% 0, 100% 100%, calc(100% - 15px) 100%);
     }
