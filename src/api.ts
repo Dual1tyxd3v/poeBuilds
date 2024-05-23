@@ -25,12 +25,11 @@ export const getBuilds = async () => {
 
     if (error && !data) {
       console.log(error.message);
-      return { data: [], error: 'Cant load builds :(' };
+      throw new Error('Cant load builds');
     }
 
     return { data: data as Build[], error: '' };
   } catch (e) {
-    console.log(e);
     return { data: [], error: (e as Error).message };
   }
 };
@@ -41,12 +40,11 @@ export const getBuild = async (id: number) => {
 
     if (error && !data) {
       console.log(error.message);
-      return { data: null, error: 'Cant load build :(' };
+      throw new Error('Cant load build :(');
     }
 
     return { data: data[0] as Build, error: '' };
   } catch (e) {
-    console.log(e);
     return { data: null, error: (e as Error).message };
   }
 };

@@ -38,8 +38,8 @@ export const reducer = createSlice({
       .addCase(getBuildsAction.fulfilled, (state, action) => {
         const { data, error } = action.payload;
         state.builds = data;
-        state.message = error;
         state.isLoading = false;
+        if (error) state.message = error;
       })
       .addCase(getBuildsAction.rejected, (state, action) => {
         state.isLoading = false;
@@ -52,7 +52,7 @@ export const reducer = createSlice({
         const { data, error } = action.payload;
         state.isLoading = false;
         state.items = data;
-        state.message = error;
+        if (error) state.message = error;
       })
       .addCase(getItemsAction.rejected, (state, action) => {
         state.isLoading = false;

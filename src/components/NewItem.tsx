@@ -5,7 +5,7 @@ import ItemTemplate from './ItemTemplate';
 import ItemInfo from './ItemInfo';
 import { createNewItem } from '../utils';
 import { useAppDispatch } from '../store';
-import { createItemAction } from '../store/async-actions';
+import { createItemAction, getItemsAction } from '../store/async-actions';
 
 const Form = styled.form`
   flex: 1;
@@ -47,9 +47,13 @@ export default function NewItem() {
     e.preventDefault();
 
     const newItem = createNewItem(formData);
-    dispatch(createItemAction(newItem));
+    const { payload } = await dispatch(createItemAction(newItem));
+    const { isSuccess } = payload as { isSuccess: boolean; error: string };
 
-    setFormData(initFormState);
+    if (isSuccess) {
+      setFormData(initFormState);
+      dispatch(getItemsAction());
+    }
   }
 
   return (
