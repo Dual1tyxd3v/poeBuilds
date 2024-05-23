@@ -7,7 +7,7 @@ import NewItem from '../components/NewItem';
 import { FaLongArrowAltLeft } from 'react-icons/fa';
 import CreateBuild from '../components/CreateBuild';
 import { useSelector } from 'react-redux';
-import { getAuthStatus, getIsLoading, getItemsFromState, getMessage } from '../store/selectors';
+import { getAuthStatus, getIsLoading, getMessage } from '../store/selectors';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import { useAppDispatch } from '../store';
@@ -80,7 +80,7 @@ export default function NewBuild() {
   const auth = useSelector(getAuthStatus);
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('item');
-  const items = useSelector(getItemsFromState);
+  // 
   const message = useSelector(getMessage);
   const isLoading = useSelector(getIsLoading);
   const dispatch = useAppDispatch();
@@ -115,7 +115,7 @@ export default function NewBuild() {
         {activeTab === 'item' ? (
           <NewItem />
         ) : (
-          <CreateBuild updateData={updateData} items={items || []} />
+          <CreateBuild />
         )}
       </Wrapper>
     </>

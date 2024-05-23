@@ -3,6 +3,7 @@ import { AuthStatus } from '../config';
 import { InitState } from '../types';
 import {
   checkAuthAction,
+  createBuildAction,
   createItemAction,
   getBuildAction,
   getBuildsAction,
@@ -111,6 +112,17 @@ export const reducer = createSlice({
       .addCase(loginAction.rejected, (state, action) => {
         state.isLoading = false;
         state.authStatus = AuthStatus.NoAuth;
+        state.message = action.error.toString();
+      })
+      .addCase(createBuildAction.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(createBuildAction.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.message = action.payload.error;
+      })
+      .addCase(createBuildAction.rejected, (state, action) => {
+        state.isLoading = false;
         state.message = action.error.toString();
       }),
 });

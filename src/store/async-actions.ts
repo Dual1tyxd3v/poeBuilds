@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { checkAuth, createItem, getAllItems, getBuild, getBuilds, login } from '../api';
+import { checkAuth, createBuild, createItem, getAllItems, getBuild, getBuilds, login } from '../api';
 import { AuthStatus } from '../config';
-import { CreateItem } from '../types';
+import { CreateItem, NewBuild } from '../types';
 
 export const getBuildsAction = createAsyncThunk('app/getBuilds', async () => {
   try {
@@ -72,3 +72,15 @@ export const loginAction = createAsyncThunk(
     }
   }
 );
+
+export const createBuildAction = createAsyncThunk('app/createBuild', async (newBuild: NewBuild) => {
+  try {
+    const resp = await createBuild(newBuild);
+
+    return resp;
+  } catch (e) {
+    console.log(e);
+
+    return { id: 0, error: (e as Error).message };
+  }
+});

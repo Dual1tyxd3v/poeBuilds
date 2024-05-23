@@ -72,7 +72,6 @@ type ItemListProps = {
   changeTemplateItems: (v: TemplateItems) => void;
   changeActiveSlot: (v: null | string) => void;
   changeActiveItem: (v: null | Item) => void;
-  updateData: () => void;
   formData: NewBuildFormData;
   templateItems: TemplateItems;
 };
@@ -86,7 +85,6 @@ export default function ItemsList({
   changeTemplateItems,
   changeActiveSlot,
   changeActiveItem,
-  updateData,
 }: ItemListProps) {
   const [search, setSearch] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -131,7 +129,7 @@ export default function ItemsList({
         templateKey && changeTemplateItems({ ...templateItems, [templateKey]: 0 });
       }
     },
-    [updateData, templateItems, changeTemplateItems]
+    [ templateItems, changeTemplateItems]
   );
 
   if (isLoading) return <Loader />;

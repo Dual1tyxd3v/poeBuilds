@@ -94,10 +94,10 @@ export const createBuild = async (newBuild: NewBuild) => {
   try {
     const { data, error } = await supabase.from('builds').insert([newBuild]).select();
 
-    return { data, error: error?.toString() || null };
+    return { id: data ? +data[0].id : 0, error: error?.toString() || 'Build successefully created' };
   } catch (e) {
     console.log(e);
-    return { data: null, error: (e as Error).message };
+    return { id: 0, error: (e as Error).message };
   }
 };
 

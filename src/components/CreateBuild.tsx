@@ -1,21 +1,19 @@
 import styled from 'styled-components';
 import { BuildItem, Item, NewBuildFormData, TemplateItems } from '../types';
 import ItemsContainer from '../ui/ItemsContainer';
-import { TEMPLATE_SLOTS } from '../config';
+import { AppRoute, TEMPLATE_SLOTS } from '../config';
 import Slot from '../ui/Slot';
 import { FormEvent, MouseEvent, useCallback, useState } from 'react';
 import { getImageById, hasAllItems } from '../utils';
 import ActiveCard from './ActiveCard';
 import BuildStats from './BuildStats';
-import Message from './Message';
-import { createBuild } from '../api';
-import Loader from './Loader';
 import ItemsList from './ItemsList';
-
-type CreateBuildProps = {
-  items: Item[];
-  updateData: () => void;
-};
+import { useSelector } from 'react-redux';
+import { getItemsFromState } from '../store/selectors';
+import { useAppDispatch } from '../store';
+import { setMessage } from '../store/reducer';
+import { createBuildAction } from '../store/async-actions';
+import { useNavigate } from 'react-router-dom';
 
 const Wrapper = styled.form`
   display: flex;
@@ -23,7 +21,7 @@ const Wrapper = styled.form`
   flex: 1;
 `;
 
-export default function CreateBuild({ items, updateData }: CreateBuildProps) {
+export default function CreateBuild() {
   const [templateItems, setTemplateItems] = useState(() =>
     TEMPLATE_SLOTS.reduce((a, b) => {
       return { ...a, [b]: 0 };
@@ -37,8 +35,9 @@ export default function CreateBuild({ items, updateData }: CreateBuildProps) {
     damage: 0,
     difficulty: 0,
   });
-  const [message, setMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const items = useSelector(getItemsFromState);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   function onSlotClickHandler(e: MouseEvent) {
     const slot = (e.currentTarget as HTMLDivElement).dataset.slot as string;
@@ -67,29 +66,22 @@ export default function CreateBuild({ items, updateData }: CreateBuildProps) {
     const newItems = Object.entries(templateItems).map((item) => ({ id: item[1] as number, slot: item[0] }));
 
     if (!hasAllItems(newItems as BuildItem[])) {
-      setMessage('Some items are missed');
+      dispatch(setMessage('Some items are missed'));
       return;
     }
 
-    setIsLoading(true);
     const { name, damage, difficulty, pob } = formData;
-    const { error } = await createBuild({ name, pob, damage, difficulty, items: newItems });
+    const { payload } = await dispatch(createBuildAction({ name, pob, damage, difficulty, items: newItems }));
 
-    if (error) {
-      setMessage(error);
-      return;
+    const { id } = payload as { id: number; error: string };
+
+    if (id) {
+      navigate(`${AppRoute.Main}build/${id}`);
     }
-
-    setMessage('Build successefully added');
-    setIsLoading(false);
-    updateData();
   }
-
-  if (isLoading) return <Loader />;
 
   return (
     <Wrapper onSubmit={onSubmitHandler}>
-      {message && <Message msg={message} />}
       {activeItem && <ActiveCard item={activeItem} />}
       <ItemsList
         items={items}
@@ -100,7 +92,6 @@ export default function CreateBuild({ items, updateData }: CreateBuildProps) {
         changeActiveItem={changeActiveItem}
         changeActiveSlot={changeActiveSlot}
         changeTemplateItems={changeTemplateItems}
-        updateData={updateData}
       />
       <ItemsContainer>
         {TEMPLATE_SLOTS.map((slot, i) => (
