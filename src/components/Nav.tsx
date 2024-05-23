@@ -6,10 +6,11 @@ import { sortBuilds } from '../utils';
 import { HiArrowsUpDown } from 'react-icons/hi2';
 import { TiPlus } from 'react-icons/ti';
 import NavTab from './NavTab';
-import { useMyContext } from '../hooks/useMyContext';
 import { useNavigate } from 'react-router-dom';
 import Select from '../ui/Select';
 import Option from '../ui/Option';
+import { useSelector } from 'react-redux';
+import { getAuthStatus } from '../store/selectors';
 
 type NavProps = {
   builds: Build[];
@@ -67,8 +68,8 @@ const Button = styled.button`
 export default function Nav({ builds }: NavProps) {
   const [sort, setSort] = useState(SORT_TAB.Name);
   const [sortedBuilds, setSortedBuilds] = useState(sortBuilds(builds, sort));
-  const { auth } = useMyContext();
   const navigate = useNavigate();
+  const auth = useSelector(getAuthStatus);
 
   useEffect(() => {
     setSortedBuilds(() => sortBuilds(builds, sort));

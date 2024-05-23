@@ -45,17 +45,6 @@ export const getBuild = async (id: number) => {
     }
 
     return { data: data[0] as Build, error: '' };
-
-    /* if (error || !build.length) return { data: null, error: error?.toString() || null };
-
-    const itemsID = (build[0] as Build).items.map((item) => item.id);
-    const { data: items, error: itemsError } = await supabase.from('items').select('*').in('id', itemsID);
-
-    if (itemsError || !items.length) return { data: null, error: itemsError?.toString() || null };
-
-    const result: { build: Build[]; items: Item[] } = { build, items };
-
-    return { data: result, error: null }; */
   } catch (e) {
     console.log(e);
     return { data: null, error: (e as Error).message };
@@ -69,10 +58,10 @@ export const login = async (email: string, password: string) => {
       password,
     });
 
-    return { data, error: error?.toString() || null };
+    return { user: data.user, error: error?.toString() || null };
   } catch (e) {
     console.log(e);
-    return { data: null, error: (e as Error).message };
+    return { user: null, error: (e as Error).message };
   }
 };
 
@@ -96,7 +85,7 @@ export const createItem = async (newItem: CreateItem) => {
   try {
     const { error } = await supabase.from('items').insert([newItem]).select();
 
-    return { isSuccess: error ? false : true, error: error?.toString() || null };
+    return { isSuccess: error ? false : true, error: error?.toString() || 'Item successefully created' };
   } catch (e) {
     console.log(e);
     return { isSuccess: false, error: (e as Error).message };

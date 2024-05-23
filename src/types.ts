@@ -1,3 +1,4 @@
+import { User } from '@supabase/supabase-js';
 import { AuthStatus } from './config';
 
 export type BuildItem = {
@@ -27,6 +28,11 @@ export type Build = {
   difficulty: number;
   id: number;
   items: BuildItem[];
+};
+
+export type LoginResponseType = {
+  user: null | User;
+  error: string;
 };
 
 export type TemplateItems = {

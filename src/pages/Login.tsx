@@ -1,11 +1,14 @@
 import styled from 'styled-components';
 import Button from '../ui/Button';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import { login } from '../api';
-import { useMyContext } from '../hooks/useMyContext';
 import { useNavigate } from 'react-router-dom';
-import { AppRoute, AuthStatus } from '../config';
+import { AppRoute } from '../config';
 import Loader from '../components/Loader';
+import { useSelector } from 'react-redux';
+import { getAuthStatus, getIsLoading } from '../store/selectors';
+import { useAppDispatch } from '../store';
+import { loginAction } from '../store/async-actions';
+import { LoginResponseType } from '../types';
 
 const Container = styled.div`
   height: 100%;
@@ -83,14 +86,14 @@ const ErrorMessage = styled.p`
 export default function Login() {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [error, setError] = useState<string | null>(null);
-  const { auth, changeAuthStatus } = useMyContext();
   const navigate = useNavigate();
+  const auth = useSelector(getAuthStatus);
+  const isLoading = useSelector(getIsLoading);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (auth === 'auth') navigate(AppRoute.Main);
   }, [auth, navigate]);
-
-  if (auth === 'unknown') return <Loader />;
 
   function onChangeHandler(e: ChangeEvent) {
     const input = e.target as HTMLInputElement;
@@ -104,14 +107,13 @@ export default function Login() {
 
     if (!formData.email || !formData.password) return;
 
-    const { data, error } = await login(formData.email, formData.password);
+    const { payload } = await dispatch(loginAction({ email: formData.email, password: formData.password }));
 
-    if (data?.user) changeAuthStatus(AuthStatus.Auth);
-
-    setError(error);
+    setError((payload as LoginResponseType).error);
   }
   return (
     <Container>
+      {isLoading && <Loader />}
       <Form onSubmit={onSubmitHandler}>
         <Title>Sign in</Title>
         <Field $iswrong={!!error}>

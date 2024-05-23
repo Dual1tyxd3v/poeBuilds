@@ -1,15 +1,13 @@
-// import reactLogo from './assets/react.svg';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { AppRoute, AuthStatus } from './config';
+import { AppRoute } from './config';
 import Layout from './components/Layout';
 import Build from './pages/Build';
-import { createContext, useCallback, useEffect, useState } from 'react';
-import { checkAuth } from './api';
+import { useEffect } from 'react';
 import NotFound from './pages/NotFound';
 import Login from './pages/Login';
 import NewBuild from './pages/NewBuild';
-
-export const MyContext = createContext<null | { auth: AuthStatus; changeAuthStatus: (v: AuthStatus) => void }>(null);
+import { useAppDispatch } from './store';
+import { checkAuthAction } from './store/async-actions';
 
 const router = createBrowserRouter([
   {
@@ -38,28 +36,13 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  const [auth, setAuth] = useState(AuthStatus.Unknown);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (auth !== 'unknown') return;
+    dispatch(checkAuthAction());
+  }, [dispatch]);
 
-    async function getUser() {
-      const resp = await checkAuth();
-      setAuth(resp);
-    }
-
-    getUser();
-  }, [auth]);
-
-  const changeAuthStatus = useCallback((value: AuthStatus) => {
-    setAuth(value);
-  }, []);
-
-  return (
-    <MyContext.Provider value={{ auth, changeAuthStatus }}>
-      <RouterProvider router={router} />
-    </MyContext.Provider>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

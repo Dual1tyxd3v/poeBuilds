@@ -1,7 +1,14 @@
 import { combineReducers, createSlice } from '@reduxjs/toolkit';
 import { AuthStatus } from '../config';
 import { InitState } from '../types';
-import { getBuildAction, getBuildsAction, getItemsAction } from './async-actions';
+import {
+  checkAuthAction,
+  createItemAction,
+  getBuildAction,
+  getBuildsAction,
+  getItemsAction,
+  loginAction,
+} from './async-actions';
 
 const initialState: InitState = {
   items: [],
@@ -62,6 +69,48 @@ export const reducer = createSlice({
       })
       .addCase(getBuildAction.rejected, (state, action) => {
         state.isLoading = false;
+        state.message = action.error.toString();
+      })
+      .addCase(checkAuthAction.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(checkAuthAction.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.authStatus = action.payload;
+      })
+      .addCase(checkAuthAction.rejected, (state, action) => {
+        state.authStatus = AuthStatus.NoAuth;
+        state.message = action.error.toString();
+      })
+      .addCase(createItemAction.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(createItemAction.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.message = action.payload.error;
+      })
+      .addCase(createItemAction.rejected, (state, action) => {
+        state.isLoading = false;
+        state.message = action.error.toString();
+      })
+      .addCase(loginAction.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(loginAction.fulfilled, (state, action) => {
+        const { user, error } = action.payload;
+        state.isLoading = false;
+
+        if (user) {
+          state.authStatus = AuthStatus.Auth;
+          return;
+        }
+
+        state.authStatus = AuthStatus.NoAuth;
+        state.message = error?.toString() || 'Something went wrong';
+      })
+      .addCase(loginAction.rejected, (state, action) => {
+        state.isLoading = false;
+        state.authStatus = AuthStatus.NoAuth;
         state.message = action.error.toString();
       }),
 });

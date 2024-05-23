@@ -18,7 +18,7 @@ export default function Layout() {
   useEffect(() => {
     dispatch(getBuildsAction());
     dispatch(getItemsAction());
-  }, []);
+  }, [dispatch]);
 
   if (isLoading) return <Loader />;
   return (

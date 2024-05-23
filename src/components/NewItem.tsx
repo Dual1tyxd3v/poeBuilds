@@ -4,9 +4,8 @@ import { NewItemType } from '../types';
 import ItemTemplate from './ItemTemplate';
 import ItemInfo from './ItemInfo';
 import { createNewItem } from '../utils';
-import { createItem } from '../api';
-import Loader from './Loader';
-import Message from './Message';
+import { useAppDispatch } from '../store';
+import { createItemAction } from '../store/async-actions';
 
 const Form = styled.form`
   flex: 1;
@@ -31,14 +30,9 @@ const initFormState = {
   difficulty: 0,
 };
 
-type NewItemProps = {
-  updateData: () => void;
-}
-
-export default function NewItem({updateData}: NewItemProps) {
+export default function NewItem() {
   const [formData, setFormData] = useState<NewItemType>(initFormState);
-  const [isLoading, setIsLoading] = useState(false);
-  const [message, setMessage] = useState('');
+  const dispatch = useAppDispatch();
 
   const onChangeHandler = useCallback(
     (e: ChangeEvent) => {
@@ -51,26 +45,15 @@ export default function NewItem({updateData}: NewItemProps) {
 
   async function onSubmitHandler(e: FormEvent) {
     e.preventDefault();
-    setIsLoading(true);
+
     const newItem = createNewItem(formData);
-    const { error } = await createItem(newItem);
-    setIsLoading(false);
+    dispatch(createItemAction(newItem));
 
-    if (error) {
-      setMessage(error);
-      return;
-    }
-
-    setMessage('Item successefully added');
     setFormData(initFormState);
-    updateData();
   }
-
-  if (isLoading) return <Loader />;
 
   return (
     <Form onSubmit={onSubmitHandler}>
-      {message && <Message msg={message} clearMessage={setMessage} />}
       <ItemTemplate formData={formData} onChangeHandler={onChangeHandler} />
       <ItemInfo formData={formData} onChangeHandler={onChangeHandler} />
     </Form>
