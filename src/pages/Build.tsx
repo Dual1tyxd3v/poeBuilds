@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { getBuildDetails } from '../api';
 import Loader from '../components/Loader';
@@ -8,6 +8,9 @@ import BuildHeader from '../components/BuildHeader';
 import Items from '../components/Items';
 import PreviewItem from '../components/PreviewItem';
 import Trade from '../components/Trade';
+import { isBuildCorrect } from '../utils';
+import Message from '../components/Message';
+import { AppRoute } from '../config';
 
 const Container = styled.div`
   flex: 1;
@@ -30,6 +33,7 @@ export default function Build() {
   const [build, setBuild] = useState<null | BuildType>(null);
   const [items, setItems] = useState<null | Item[]>(null);
   const [activeItem, setActiveItem] = useState<null | Item>(null);
+  const nav = useNavigate();
 
   useEffect(() => {
     async function getData(id: number) {
@@ -51,6 +55,9 @@ export default function Build() {
   const setActive = useCallback((value: null | Item) => {
     setActiveItem(value);
   }, []);
+
+  if (build && items && !isBuildCorrect(items, build.items))
+    return <Message msg="Some items are missed" clearMessage={() => nav(AppRoute.Main)} />;
 
   if (isLoading) return <Loader />;
 

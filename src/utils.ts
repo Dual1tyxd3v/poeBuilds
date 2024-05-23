@@ -64,3 +64,12 @@ export const isItemInTemplate = (id: number, template: TemplateItems) => {
   }
   return false;
 };
+
+export const isBuildCorrect = (items: Item[], buildItems: BuildItem[]) => {
+  for (let i = 0; i < buildItems.length; i++) {
+    const { id } = buildItems[i];
+    const existedItem = items.find((item) => item.id === id);
+    if (!existedItem) return false;
+  }
+  return true;
+};
