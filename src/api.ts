@@ -107,3 +107,14 @@ export const deleteItem = async (id: number) => {
     return { error: (e as Error).message };
   }
 };
+
+export const deleteBuild = async (id: number) => {
+  try {
+    const { error } = await supabase.from('builds').delete().eq('id', id);
+
+    return { error: error?.toString() || null };
+  } catch (e) {
+    console.log(e);
+    return { error: (e as Error).message };
+  }
+};
