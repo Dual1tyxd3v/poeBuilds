@@ -48,6 +48,7 @@ export type InitState = {
   isLoading: boolean;
   message: string;
   authStatus: AuthStatus;
+  build: null | Build;
 };
 
 export type NewBuild = Omit<Build, 'id'>;

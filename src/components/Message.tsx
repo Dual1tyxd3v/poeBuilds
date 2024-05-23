@@ -1,8 +1,9 @@
 import styled from 'styled-components';
+import { useAppDispatch } from '../store';
+import { setMessage } from '../store/reducer';
 
 type MessageProps = {
   msg: string;
-  clearMessage: (v: string) => void;
 };
 
 const Container = styled.div`
@@ -46,11 +47,12 @@ const Button = styled.button`
   }
 `;
 
-export default function Message({ msg, clearMessage }: MessageProps) {
+export default function Message({ msg }: MessageProps) {
+  const dispatch = useAppDispatch();
   return (
     <Container>
       <Text>{msg}</Text>
-      <Button onClick={() => clearMessage('')}>
+      <Button onClick={() => dispatch(setMessage(''))}>
         <span>Ok</span>
       </Button>
     </Container>

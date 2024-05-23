@@ -70,7 +70,7 @@ export default function NavTab({ build }: NavTabProps) {
   if (isLoading) return <Loader />;
   return (
     <Li>
-      {message && <Message msg={message} clearMessage={() => setMessage('')} />}
+      {message && <Message msg={message} />}
       <A to={`${AppRoute.Main}build/${id}`}>
         <Title>{name}</Title>
         <Description>

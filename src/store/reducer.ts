@@ -1,7 +1,7 @@
 import { combineReducers, createSlice } from '@reduxjs/toolkit';
 import { AuthStatus } from '../config';
 import { InitState } from '../types';
-import { getBuildsAction, getItemsAction } from './async-actions';
+import { getBuildAction, getBuildsAction, getItemsAction } from './async-actions';
 
 const initialState: InitState = {
   items: [],
@@ -9,6 +9,7 @@ const initialState: InitState = {
   isLoading: false,
   message: '',
   authStatus: AuthStatus.Unknown,
+  build: null,
 };
 
 export const reducer = createSlice({
@@ -47,6 +48,19 @@ export const reducer = createSlice({
         state.message = error;
       })
       .addCase(getItemsAction.rejected, (state, action) => {
+        state.isLoading = false;
+        state.message = action.error.toString();
+      })
+      .addCase(getBuildAction.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getBuildAction.fulfilled, (state, action) => {
+        const { data, error } = action.payload;
+        state.isLoading = false;
+        state.build = data;
+        state.message = error;
+      })
+      .addCase(getBuildAction.rejected, (state, action) => {
         state.isLoading = false;
         state.message = action.error.toString();
       }),

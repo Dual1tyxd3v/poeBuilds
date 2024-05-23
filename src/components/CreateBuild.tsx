@@ -89,7 +89,7 @@ export default function CreateBuild({ items, updateData }: CreateBuildProps) {
 
   return (
     <Wrapper onSubmit={onSubmitHandler}>
-      {message && <Message msg={message} clearMessage={() => setMessage('')} />}
+      {message && <Message msg={message} />}
       {activeItem && <ActiveCard item={activeItem} />}
       <ItemsList
         items={items}

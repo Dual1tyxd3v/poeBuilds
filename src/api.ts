@@ -35,11 +35,18 @@ export const getBuilds = async () => {
   }
 };
 
-export const getBuildDetails = async (id: number) => {
+export const getBuild = async (id: number) => {
   try {
-    const { data: build, error } = await supabase.from('builds').select('*').eq('id', id);
+    const { data, error } = await supabase.from('builds').select('*').eq('id', id);
 
-    if (error || !build.length) return { data: null, error: error?.toString() || null };
+    if (error && !data) {
+      console.log(error.message);
+      return { data: null, error: 'Cant load build :(' };
+    }
+
+    return { data: data[0] as Build, error: '' };
+
+    /* if (error || !build.length) return { data: null, error: error?.toString() || null };
 
     const itemsID = (build[0] as Build).items.map((item) => item.id);
     const { data: items, error: itemsError } = await supabase.from('items').select('*').in('id', itemsID);
@@ -48,7 +55,7 @@ export const getBuildDetails = async (id: number) => {
 
     const result: { build: Build[]; items: Item[] } = { build, items };
 
-    return { data: result, error: null };
+    return { data: result, error: null }; */
   } catch (e) {
     console.log(e);
     return { data: null, error: (e as Error).message };
@@ -75,7 +82,7 @@ export const getAllItems = async () => {
 
     if (error && !data) {
       console.log(error.message);
-      return { data: [], error: 'Cant load builds :(' };
+      return { data: [], error: 'Cant load items :(' };
     }
 
     return { data: data as Item[], error: '' };

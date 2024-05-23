@@ -10,6 +10,7 @@ type ItemProps = {
 };
 
 export default function Item({ slot, item, setActive, isActive }: ItemProps) {
+
   const {
     img,
     stats: { name },

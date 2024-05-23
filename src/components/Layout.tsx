@@ -8,7 +8,6 @@ import { getBuildsFromState, getIsLoading, getMessage } from '../store/selectors
 import { getBuildsAction, getItemsAction } from '../store/async-actions';
 import { useAppDispatch } from '../store';
 import Message from './Message';
-import { setMessage } from '../store/reducer';
 
 export default function Layout() {
   const isLoading = useSelector(getIsLoading);
@@ -19,12 +18,12 @@ export default function Layout() {
   useEffect(() => {
     dispatch(getBuildsAction());
     dispatch(getItemsAction());
-  }, [dispatch]);
+  }, []);
 
   if (isLoading) return <Loader />;
   return (
     <Wrapper>
-      {message && <Message msg={message} clearMessage={() => dispatch(setMessage(''))} />}
+      {message && <Message msg={message} />}
       <Nav builds={builds} />
       <Outlet />
     </Wrapper>

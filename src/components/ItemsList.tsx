@@ -137,7 +137,7 @@ export default function ItemsList({
   if (isLoading) return <Loader />;
   return (
     <ItemsListContainer>
-      {message && <Message msg={message} clearMessage={() => setMessage('')} />}
+      {message && <Message msg={message} />}
       {activeSlot && (
         <ItemList>
           <Search placeholder="Search" value={search} onChange={onChangeHandler} />
