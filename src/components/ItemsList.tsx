@@ -4,9 +4,8 @@ import { Item, NewBuildFormData, TemplateItems } from '../types';
 import { ChangeEvent, MouseEvent, useCallback, useEffect, useState } from 'react';
 import Input from '../ui/NewItemInput';
 import Controls from './Controls';
-import { deleteItem } from '../api';
-import Loader from './Loader';
-import Message from './Message';
+import { useAppDispatch } from '../store';
+import { deleteItemAction, getItemsAction } from '../store/async-actions';
 
 const ItemsListContainer = styled.div`
   width: 30rem;
@@ -87,8 +86,7 @@ export default function ItemsList({
   changeActiveItem,
 }: ItemListProps) {
   const [search, setSearch] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [message, setMessage] = useState('');
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     setSearch('');
@@ -116,26 +114,21 @@ export default function ItemsList({
 
   const onDeleteAction = useCallback(
     async (id: number) => {
-      setIsLoading(true);
-      const { error } = await deleteItem(id);
+      const { payload } = await dispatch(deleteItemAction(id));
+      const { isSuccess } = payload as { isSuccess: boolean; error: string };
 
-      setMessage(error || 'Item successefully deleted');
-
-      setIsLoading(false);
-      if (!error) {
-        updateData();
+      if (isSuccess) {
+        dispatch(getItemsAction());
 
         const templateKey = isItemInTemplate(id, templateItems);
         templateKey && changeTemplateItems({ ...templateItems, [templateKey]: 0 });
       }
     },
-    [ templateItems, changeTemplateItems]
+    [dispatch, changeTemplateItems, templateItems]
   );
 
-  if (isLoading) return <Loader />;
   return (
     <ItemsListContainer>
-      {message && <Message msg={message} />}
       {activeSlot && (
         <ItemList>
           <Search placeholder="Search" value={search} onChange={onChangeHandler} />

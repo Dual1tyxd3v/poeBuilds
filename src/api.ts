@@ -105,10 +105,10 @@ export const deleteItem = async (id: number) => {
   try {
     const { error } = await supabase.from('items').delete().eq('id', id);
 
-    return { error: error?.toString() || null };
+    return { isSuccess: error ? false : true, error: error?.toString() || 'Item successefully deleted' };
   } catch (e) {
     console.log(e);
-    return { error: (e as Error).message };
+    return { isSuccess: false, error: (e as Error).message };
   }
 };
 

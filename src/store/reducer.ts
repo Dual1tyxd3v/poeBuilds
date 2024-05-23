@@ -5,6 +5,7 @@ import {
   checkAuthAction,
   createBuildAction,
   createItemAction,
+  deleteItemAction,
   getBuildAction,
   getBuildsAction,
   getItemsAction,
@@ -122,6 +123,17 @@ export const reducer = createSlice({
         state.message = action.payload.error;
       })
       .addCase(createBuildAction.rejected, (state, action) => {
+        state.isLoading = false;
+        state.message = action.error.toString();
+      })
+      .addCase(deleteItemAction.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteItemAction.fulfilled, (state, action) => {
+        state.message = action.payload.error;
+        state.isLoading = false;
+      })
+      .addCase(deleteItemAction.rejected, (state, action) => {
         state.isLoading = false;
         state.message = action.error.toString();
       }),
