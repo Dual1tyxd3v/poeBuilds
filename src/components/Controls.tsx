@@ -42,19 +42,21 @@ type MenuProps = {
 };
 
 const Menu = styled.div<MenuProps>`
-  width: 100px;
-
   background-color: var(--color-text--primary);
   transition: clip-path 0.2s ease;
 `;
 
-const MenuButton = styled.div`
+const MenuButton = styled.button`
   background-color: #000;
   font-size: 1.2rem;
-  padding: 0.15rem;
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  padding: 0.15rem 0.5rem;
   display: flex;
   gap: 0.5rem;
   align-items: center;
+  color: var(--color-text--primary);
 
   &:not(:last-child) {
     margin-bottom: 0.1rem;
@@ -79,8 +81,13 @@ export default function Controls({ deleteAction }: ControlsProps) {
       deleteAction();
     }
   }
+
+  function onContainerClickHandler(e: MouseEvent) {
+    e.stopPropagation();
+    setIsActive((prev) => !prev);
+  }
   return (
-    <Container $isactive={isActive} onClick={() => setIsActive((prev) => !prev)} data-id="controls">
+    <Container $isactive={isActive} onClick={onContainerClickHandler} data-id="controls">
       <Menu $isactive={isActive}>
         <MenuButton data-id="edit" onClick={onClickHandler}>
           <MdEdit size="1.5rem" />
