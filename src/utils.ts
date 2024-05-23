@@ -1,5 +1,5 @@
 import { CURRENT_LEAGUE, SORT_TAB } from './config';
-import { Build, BuildItem, Item, NewItemType } from './types';
+import { Build, BuildItem, Item, NewItemType, TemplateItems } from './types';
 
 export const sortBuilds = (builds: Build[], sortBy: SORT_TAB) => {
   const result = [...builds];
@@ -52,4 +52,15 @@ export const hasAllItems = (templateItems: BuildItem[]) => {
     if (templateItems[i].id === 0 && templateItems[i].slot !== 'weapon1') return false;
   }
   return true;
+};
+
+export const isItemInTemplate = (id: number, template: TemplateItems) => {
+  const templateArray = Object.entries(template);
+  for (let i = 0; i < templateArray.length; i++) {
+    const [key, value] = templateArray[i];
+    if (value === id) {
+      return key;
+    }
+  }
+  return false;
 };

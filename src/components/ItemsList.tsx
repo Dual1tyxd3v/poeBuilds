@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { getTotalDifficulty } from '../utils';
+import { getTotalDifficulty, isItemInTemplate } from '../utils';
 import { Item, NewBuildFormData, TemplateItems } from '../types';
 import { ChangeEvent, MouseEvent, useCallback, useEffect, useState } from 'react';
 import Input from '../ui/NewItemInput';
@@ -124,9 +124,14 @@ export default function ItemsList({
       setMessage(error || 'Item successefully deleted');
 
       setIsLoading(false);
-      if (!error) updateData();
+      if (!error) {
+        updateData();
+
+        const templateKey = isItemInTemplate(id, templateItems);
+        templateKey && changeTemplateItems({ ...templateItems, [templateKey]: 0 });
+      }
     },
-    [updateData]
+    [updateData, templateItems, changeTemplateItems]
   );
 
   if (isLoading) return <Loader />;
