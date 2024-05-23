@@ -23,7 +23,12 @@ export const getBuilds = async () => {
   try {
     const { data, error } = await supabase.from('builds').select('*');
 
-    return { data: (data as Build[]) || [], error: error?.toString() || '' };
+    if (error && !data) {
+      console.log(error.message);
+      return { data: [], error: 'Cant load builds :(' };
+    }
+
+    return { data: data as Build[], error: '' };
   } catch (e) {
     console.log(e);
     return { data: [], error: (e as Error).message };
@@ -68,10 +73,15 @@ export const getAllItems = async () => {
   try {
     const { data, error } = await supabase.from('items').select('*');
 
-    return { data, error: error?.toString() || null };
+    if (error && !data) {
+      console.log(error.message);
+      return { data: [], error: 'Cant load builds :(' };
+    }
+
+    return { data: data as Item[], error: '' };
   } catch (e) {
     console.log(e);
-    return { data: null, error: (e as Error).message };
+    return { data: [], error: (e as Error).message };
   }
 };
 

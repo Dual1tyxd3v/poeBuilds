@@ -5,19 +5,20 @@ import Nav from './Nav';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { getBuildsFromState, getIsLoading, getMessage } from '../store/selectors';
-import { getBuildsAction } from '../store/async-actions';
+import { getBuildsAction, getItemsAction } from '../store/async-actions';
 import { useAppDispatch } from '../store';
 import Message from './Message';
 import { setMessage } from '../store/reducer';
 
 export default function Layout() {
   const isLoading = useSelector(getIsLoading);
-  const dispatch = useAppDispatch();
   const builds = useSelector(getBuildsFromState);
   const message = useSelector(getMessage);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(getBuildsAction());
+    dispatch(getItemsAction());
   }, [dispatch]);
 
   if (isLoading) return <Loader />;
