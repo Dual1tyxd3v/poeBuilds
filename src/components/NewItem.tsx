@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import styled from 'styled-components';
 import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
-import { NewItemType } from '../types';
+import { NewItemType, ParseData } from '../types';
 import ItemTemplate from './ItemTemplate';
 import ItemInfo from './ItemInfo';
 import { createNewItem } from '../utils';
@@ -8,6 +9,8 @@ import { useAppDispatch } from '../store';
 import { createItemAction, getItemsAction } from '../store/async-actions';
 import Input from '../ui/NewItemInput';
 import ButtonPrimary from '../ui/ButtonPrimary';
+import { parseItem } from '../api';
+import { setIsLoading, setMessage } from '../store/reducer';
 
 const Form = styled.form`
   flex: 1;
@@ -43,6 +46,7 @@ const Title = styled.h4`
 const Field = styled.div`
   display: flex;
   gap: 2rem;
+  align-items: center;
 `;
 
 const initFormState = {
@@ -63,6 +67,7 @@ const initFormState = {
 export default function NewItem() {
   const [formData, setFormData] = useState<NewItemType>(initFormState);
   const dispatch = useAppDispatch();
+  const [parseUrl, setParseUrl] = useState('');
 
   const onChangeHandler = useCallback(
     (e: ChangeEvent) => {
@@ -86,6 +91,32 @@ export default function NewItem() {
     }
   }
 
+  async function onParserSubmitHandler() {
+    if (!parseUrl) return;
+    dispatch(setIsLoading(true));
+
+    const { data, error } = await parseItem(parseUrl);
+
+    dispatch(setIsLoading(false));
+
+    if (error || !data) {
+      dispatch(setMessage(error));
+      return;
+    }
+    const { name, implicit, explicit, text, level, source, image } = data as ParseData;
+    setFormData({
+      ...formData,
+      implicit,
+      level,
+      source,
+      image,
+      description: text,
+      name: name[0],
+      type: name[1],
+      explicit: explicit.join('\n'),
+    });
+  }
+
   return (
     <Form onSubmit={onSubmitHandler}>
       <Wrapper>
@@ -96,8 +127,15 @@ export default function NewItem() {
         <Parser>
           <Title>Or you can insert poewiki url with necessary unique item</Title>
           <Field>
-            <Input type="text" />
-            <ButtonPrimary><span>Parse</span></ButtonPrimary>
+            <Input
+              type="text"
+              value={parseUrl}
+              onChange={(e) => setParseUrl(e.target.value)}
+              placeholder="Poewiki URL"
+            />
+            <ButtonPrimary onClick={onParserSubmitHandler} type="button">
+              <span>Parse</span>
+            </ButtonPrimary>
           </Field>
         </Parser>
       )}

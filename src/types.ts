@@ -99,3 +99,18 @@ export type MousePosition = {
   x: number;
   y: number;
 };
+
+export type ParseData = {
+  name: string[];
+  level: number;
+  implicit: string;
+  explicit: string[];
+  text: string;
+  image: string;
+  source: string;
+};
+
+export type ParseResponse = {
+  data: null | ParseData;
+  error: string;
+};

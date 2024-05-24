@@ -5,6 +5,7 @@ const supabaseUrl = 'https://pvtdmhslfcmhyjopnlen.supabase.co';
 const supabaseKey =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB2dGRtaHNsZmNtaHlqb3BubGVuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTU2ODQ3NjUsImV4cCI6MjAzMTI2MDc2NX0.G1oeZ4L99pZqcDA7oo3K1XmI694j7fAq1OgmrlFJTCc';
 const supabase = createClient(supabaseUrl, supabaseKey);
+const PARSER_URL = 'http://localhost:3002/pob';
 
 export const checkAuth = async () => {
   try {
@@ -120,5 +121,25 @@ export const deleteBuild = async (id: number) => {
   } catch (e) {
     console.log(e);
     return { isSuccess: false, error: (e as Error).message };
+  }
+};
+
+export const parseItem = async (url: string) => {
+  try {
+    const body = JSON.stringify({ url });
+    const resp = await fetch(PARSER_URL, {
+      method: 'POST',
+      body,
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+
+    const { data, error } = await resp.json();
+
+    return { data, error };
+  } catch (e) {
+    console.log(e);
+    return { data: null, error: (e as Error).message };
   }
 };
