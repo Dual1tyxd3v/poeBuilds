@@ -125,13 +125,13 @@ export default function NewItem() {
       </Wrapper>
       {formData.rarity === 'unique' && (
         <Parser>
-          <Title>Or you can insert poewiki url with necessary unique item</Title>
+          <Title>Or you can insert poedb url with necessary unique item</Title>
           <Field>
             <Input
               type="text"
               value={parseUrl}
               onChange={(e) => setParseUrl(e.target.value)}
-              placeholder="Poewiki URL"
+              placeholder="Poedb URL"
             />
             <ButtonPrimary onClick={onParserSubmitHandler} type="button">
               <span>Parse</span>
