@@ -111,7 +111,7 @@ export default function NewBuild() {
           Build
         </Tab>
       </Tabs>
-      <Wrapper style={{ height: 'calc(100% - 52px)' }}>
+      <Wrapper style={{ height: 'calc(100% - 52px)', overflow: 'auto' }}>
         {activeTab === 'item' ? (
           <NewItem />
         ) : (

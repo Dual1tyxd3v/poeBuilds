@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useAppDispatch } from '../store';
 import { setMessage } from '../store/reducer';
+import ButtonPrimary from '../ui/ButtonPrimary';
 
 type MessageProps = {
   msg: string;
@@ -26,35 +27,14 @@ const Text = styled.p`
   margin-bottom: 3rem;
 `;
 
-const Button = styled.button`
-  border: none;
-  cursor: pointer;
-  background-color: transparent;
-
-  & span {
-    display: block;
-    color: var(--color-text--active);
-    font-size: 1.6rem;
-    font-weight: 600;
-    padding: 0.5rem 1.5rem;
-    background-color: #5c3e28;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-
-  &:hover span {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px var(--color-bg--hover);
-  }
-`;
-
 export default function Message({ msg }: MessageProps) {
   const dispatch = useAppDispatch();
   return (
     <Container>
       <Text>{msg}</Text>
-      <Button onClick={() => dispatch(setMessage(''))}>
+      <ButtonPrimary onClick={() => dispatch(setMessage(''))}>
         <span>Ok</span>
-      </Button>
+      </ButtonPrimary>
     </Container>
   );
 }

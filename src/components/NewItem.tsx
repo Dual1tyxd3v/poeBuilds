@@ -6,13 +6,43 @@ import ItemInfo from './ItemInfo';
 import { createNewItem } from '../utils';
 import { useAppDispatch } from '../store';
 import { createItemAction, getItemsAction } from '../store/async-actions';
+import Input from '../ui/NewItemInput';
+import ButtonPrimary from '../ui/ButtonPrimary';
 
 const Form = styled.form`
   flex: 1;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 2rem;
+`;
+
+const Wrapper = styled.div`
   gap: 10rem;
+  display: flex;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Parser = styled.div`
+  background: url(/images/login-bg.png) center center no-repeat;
+  background-size: 100% 100%;
+  padding: 1rem 2rem;
+`;
+
+const Title = styled.h4`
+  font-size: 2rem;
+  color: var(--color-text--primary);
+  text-align: center;
+  font-family: 'Fontin';
+  margin-bottom: 1rem;
+`;
+
+const Field = styled.div`
+  display: flex;
+  gap: 2rem;
 `;
 
 const initFormState = {
@@ -58,8 +88,19 @@ export default function NewItem() {
 
   return (
     <Form onSubmit={onSubmitHandler}>
-      <ItemTemplate formData={formData} onChangeHandler={onChangeHandler} />
-      <ItemInfo formData={formData} onChangeHandler={onChangeHandler} />
+      <Wrapper>
+        <ItemTemplate formData={formData} onChangeHandler={onChangeHandler} />
+        <ItemInfo formData={formData} onChangeHandler={onChangeHandler} />
+      </Wrapper>
+      {formData.rarity === 'unique' && (
+        <Parser>
+          <Title>Or you can insert poewiki url with necessary unique item</Title>
+          <Field>
+            <Input type="text" />
+            <ButtonPrimary><span>Parse</span></ButtonPrimary>
+          </Field>
+        </Parser>
+      )}
     </Form>
   );
 }
