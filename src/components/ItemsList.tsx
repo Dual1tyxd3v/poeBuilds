@@ -6,6 +6,8 @@ import Input from '../ui/NewItemInput';
 import Controls from './Controls';
 import { useAppDispatch } from '../store';
 import { deleteItemAction, getItemsAction } from '../store/async-actions';
+import { useSelector } from 'react-redux';
+import { getItemsFromState } from '../store/selectors';
 
 const ItemsListContainer = styled.div`
   width: 30rem;
@@ -65,7 +67,6 @@ const Separator = styled.div`
 `;
 
 type ItemListProps = {
-  items: Item[];
   activeSlot: null | string;
   changeFormData: (v: NewBuildFormData) => void;
   changeTemplateItems: (v: TemplateItems) => void;
@@ -76,7 +77,6 @@ type ItemListProps = {
 };
 
 export default function ItemsList({
-  items,
   formData,
   activeSlot,
   templateItems,
@@ -87,6 +87,7 @@ export default function ItemsList({
 }: ItemListProps) {
   const [search, setSearch] = useState('');
   const dispatch = useAppDispatch();
+  const items = useSelector(getItemsFromState);
 
   useEffect(() => {
     setSearch('');

@@ -84,7 +84,6 @@ export default function CreateBuild() {
     <Wrapper onSubmit={onSubmitHandler}>
       {activeItem && <ActiveCard item={activeItem} />}
       <ItemsList
-        items={items}
         activeSlot={activeSlot}
         formData={formData}
         templateItems={templateItems as TemplateItems}
