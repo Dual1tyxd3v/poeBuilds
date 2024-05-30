@@ -4,12 +4,14 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  position: fixed;
+  /* height: 100%;
   width: 100%;
   flex: 1;
-  position: fixed;
   top: 0;
-  left: 0;
+  left: 0; */
+  inset: 0;
+  z-index: 199;
   background-color: rgba(0, 0, 0, 0.7);
 `;
 

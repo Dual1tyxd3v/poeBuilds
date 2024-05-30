@@ -5,7 +5,7 @@ const supabaseUrl = 'https://pvtdmhslfcmhyjopnlen.supabase.co';
 const supabaseKey =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB2dGRtaHNsZmNtaHlqb3BubGVuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTU2ODQ3NjUsImV4cCI6MjAzMTI2MDc2NX0.G1oeZ4L99pZqcDA7oo3K1XmI694j7fAq1OgmrlFJTCc';
 const supabase = createClient(supabaseUrl, supabaseKey);
-const PARSER_URL = 'http://localhost:3002/pob';
+const PARSER_URL = 'https://moexapi.vercel.app/pob';
 
 export const checkAuth = async () => {
   try {
