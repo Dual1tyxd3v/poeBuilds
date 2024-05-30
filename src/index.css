@@ -10,6 +10,8 @@
   --color-text--unique: rgb(175, 96, 37);
   --color-text--default: rgb(127, 127, 127);
   --color-slot: rgb(15, 23, 42);
+
+  --size-tab-height: 2.6rem;
 }
 
 *,
@@ -24,13 +26,13 @@
 }
 
 *::-webkit-scrollbar-thumb {
-  border-radius: 100px; 
-  background-color: var(--color-border); 
+  border-radius: 100px;
+  background-color: var(--color-border);
 }
 
 *::-webkit-scrollbar-track {
-  margin: 5px 0; 
-  background-color: #000; 
+  margin: 5px 0;
+  background-color: #000;
 }
 
 @font-face {
@@ -80,12 +82,12 @@ body {
   background: url(/images/bg.jpg) no-repeat #000;
   background-position: center top;
   background-size: contain;
+  padding: 3rem;
 }
 
 #root {
   width: 100%;
   height: 100%;
-  padding: 3rem;
 }
 
 @keyframes l19 {

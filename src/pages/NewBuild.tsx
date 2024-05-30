@@ -25,7 +25,7 @@ type TabProps = {
 };
 
 const Tab = styled.button<TabProps>`
-  height: 26px;
+  height: var(--size-tab-height);
   border: none;
   background-color: transparent;
   color: ${(props) => (props.$isactive ? 'var(--color-text--active)' : 'var(--color-text--default)')};
@@ -80,7 +80,7 @@ export default function NewBuild() {
   const auth = useSelector(getAuthStatus);
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('item');
-  // 
+  //
   const message = useSelector(getMessage);
   const isLoading = useSelector(getIsLoading);
   const dispatch = useAppDispatch();
@@ -111,12 +111,8 @@ export default function NewBuild() {
           Build
         </Tab>
       </Tabs>
-      <Wrapper style={{ height: 'calc(100% - 52px)', overflow: 'auto' }}>
-        {activeTab === 'item' ? (
-          <NewItem />
-        ) : (
-          <CreateBuild />
-        )}
+      <Wrapper style={{ height: 'calc(100% - 26px)', overflow: 'auto', alignItems: 'flex-start' }}>
+        {activeTab === 'item' ? <NewItem /> : <CreateBuild />}
       </Wrapper>
     </>
   );

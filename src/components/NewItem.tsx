@@ -24,7 +24,6 @@ const Form = styled.form`
 const Wrapper = styled.div`
   gap: 10rem;
   display: flex;
-  display: flex;
   justify-content: center;
   align-items: center;
 `;
