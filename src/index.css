@@ -77,7 +77,6 @@ img {
 }
 
 body {
-  width: 100vw;
   height: 100vh;
   background: url(/images/bg.jpg) no-repeat #000;
   background-position: center top;

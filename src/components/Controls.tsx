@@ -89,11 +89,11 @@ export default function Controls({ deleteAction }: ControlsProps) {
   return (
     <Container $isactive={isActive} onClick={onContainerClickHandler} data-id="controls">
       <Menu $isactive={isActive}>
-        <MenuButton type="button" data-id="edit" onClick={onClickHandler}>
+        <MenuButton title="Edit" type="button" data-id="edit" onClick={onClickHandler}>
           <MdEdit size="1.5rem" />
           Edit
         </MenuButton>
-        <MenuButton type="button" data-id="delete" onClick={onClickHandler}>
+        <MenuButton title="Delete" type="button" data-id="delete" onClick={onClickHandler}>
           <MdDeleteForever size="1.5rem" />
           Delete
         </MenuButton>
