@@ -5,6 +5,7 @@ import {
   createItem,
   deleteBuild,
   deleteItem,
+  editItem,
   getAllItems,
   getBuild,
   getBuilds,
@@ -116,3 +117,17 @@ export const deleteBuildAction = createAsyncThunk('app/deleteBuild', async (id: 
     return { isSuccess: false, error: (e as Error).message };
   }
 });
+
+export const editItemAction = createAsyncThunk(
+  'app/editItem',
+  async ({ newItem, id }: { newItem: CreateItem; id: number }) => {
+    try {
+      const resp = await editItem(newItem, id);
+
+      return resp;
+    } catch (e) {
+      console.log(e);
+      return { isSuccess: false, error: (e as Error).message, data: undefined };
+    }
+  }
+);

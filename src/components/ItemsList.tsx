@@ -8,6 +8,7 @@ import { useAppDispatch } from '../store';
 import { deleteItemAction, getItemsAction } from '../store/async-actions';
 import { useSelector } from 'react-redux';
 import { getItemsFromState } from '../store/selectors';
+import { AppRoute } from '../config';
 
 const ItemsListContainer = styled.div`
   width: 30rem;
@@ -152,7 +153,7 @@ export default function ItemsList({
               >
                 {item.stats.name.join(' ')}
               </ItemDescription>
-              <Controls deleteAction={() => onDeleteAction(item.id)} />
+              <Controls route={`${AppRoute.EditItem}/${item.id}`} deleteAction={() => onDeleteAction(item.id)} />
             </ListItem>
           ))}
         </ItemList>

@@ -2,6 +2,7 @@ import { MouseEvent, useState } from 'react';
 import styled from 'styled-components';
 import { MdDeleteForever } from 'react-icons/md';
 import { MdEdit } from 'react-icons/md';
+import { useNavigate } from 'react-router-dom';
 
 type ContainerProps = {
   $isactive: boolean;
@@ -69,16 +70,21 @@ const MenuButton = styled.button`
 
 type ControlsProps = {
   deleteAction: () => void;
+  route: string;
 };
 
-export default function Controls({ deleteAction }: ControlsProps) {
+export default function Controls({ deleteAction, route }: ControlsProps) {
   const [isActive, setIsActive] = useState(false);
+  const navigate = useNavigate();
 
   function onClickHandler(e: MouseEvent) {
     e.stopPropagation();
     const { id } = (e.target as HTMLButtonElement).dataset;
     if (id === 'delete') {
       deleteAction();
+    }
+    if (id === 'edit') {
+      navigate(route);
     }
   }
 

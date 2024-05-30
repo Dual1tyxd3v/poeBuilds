@@ -9,6 +9,7 @@ import Trade from '../components/Trade';
 import { isBuildCorrect } from '../utils';
 import { useSelector } from 'react-redux';
 import { getBuildsFromState, getItemsFromState } from '../store/selectors';
+import EmptyPage from '../ui/EmptyPage';
 
 const Container = styled.div`
   flex: 1;
@@ -23,17 +24,6 @@ const Wrapper = styled.div`
   flex: 1;
   align-items: center;
   overflow: auto;
-`;
-
-const EmptyPage = styled.div`
-  height: 100%;
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-size: 2.4rem;
-  color: var(--color-text--primary);
 `;
 
 export default function Build() {

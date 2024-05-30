@@ -3,7 +3,7 @@ export const CURRENT_LEAGUE = 'Necropolis';
 export enum AppRoute {
   Main = '/',
   Add = '/add',
-  Edit = '/edit',
+  EditItem = '/editItem',
   Login = '/login',
 }
 

@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import styled from 'styled-components';
 import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
-import { NewItemType, ParseData } from '../types';
+import { CreateItem, Item, NewItemType, ParseData } from '../types';
 import ItemTemplate from './ItemTemplate';
 import ItemInfo from './ItemInfo';
-import { createNewItem } from '../utils';
+import { createItemFormState, createNewItem } from '../utils';
 import { useAppDispatch } from '../store';
-import { createItemAction, getItemsAction } from '../store/async-actions';
+import { createItemAction, editItemAction, getItemsAction } from '../store/async-actions';
 import Input from '../ui/NewItemInput';
 import ButtonPrimary from '../ui/ButtonPrimary';
 import { parseItem } from '../api';
@@ -49,6 +49,7 @@ const Field = styled.div`
 `;
 
 const initFormState = {
+  id: null,
   name: '',
   type: '',
   level: 1,
@@ -63,10 +64,14 @@ const initFormState = {
   difficulty: 0,
 };
 
-export default function NewItem() {
-  const [formData, setFormData] = useState<NewItemType>(initFormState);
-  const dispatch = useAppDispatch();
+type NewItemProps = {
+  item?: Item;
+};
+
+export default function NewItem({ item }: NewItemProps) {
+  const [formData, setFormData] = useState<NewItemType>(() => (item ? createItemFormState(item) : initFormState));
   const [parseUrl, setParseUrl] = useState('');
+  const dispatch = useAppDispatch();
 
   const onChangeHandler = useCallback(
     (e: ChangeEvent) => {
@@ -80,12 +85,14 @@ export default function NewItem() {
   async function onSubmitHandler(e: FormEvent) {
     e.preventDefault();
 
-    const newItem = createNewItem(formData);
-    const { payload } = await dispatch(createItemAction(newItem));
-    const { isSuccess } = payload as { isSuccess: boolean; error: string };
+    const newItem = createNewItem(formData) as CreateItem;
+    const { payload } = item
+      ? await dispatch(editItemAction({ newItem, id: item.id }))
+      : await dispatch(createItemAction(newItem));
+    const { isSuccess, data } = payload as { isSuccess: boolean; error: string; data?: Item | undefined };
 
     if (isSuccess) {
-      setFormData(initFormState);
+      setFormData(data ? createItemFormState(data) : initFormState);
       dispatch(getItemsAction());
     }
   }
@@ -126,12 +133,7 @@ export default function NewItem() {
         <Parser>
           <Title>Or you can insert poedb url with necessary unique item</Title>
           <Field>
-            <Input
-              type="text"
-              value={parseUrl}
-              onChange={(e) => setParseUrl(e.target.value)}
-              placeholder="Poedb URL"
-            />
+            <Input type="text" value={parseUrl} onChange={(e) => setParseUrl(e.target.value)} placeholder="Poedb URL" />
             <ButtonPrimary onClick={onParserSubmitHandler} type="button">
               <span>Parse</span>
             </ButtonPrimary>

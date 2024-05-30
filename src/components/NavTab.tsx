@@ -72,7 +72,7 @@ export default function NavTab({ build }: NavTabProps) {
           Damage: <Value>{damage}</Value> Difficulty: <Value>{difficulty}</Value>
         </Description>
       </A>
-      <Controls deleteAction={onDeleteAction} />
+      <Controls route={`test`} deleteAction={onDeleteAction} />
     </Li>
   );
 }

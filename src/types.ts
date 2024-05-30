@@ -7,6 +7,7 @@ export type BuildItem = {
 };
 
 export type NewItemType = {
+  id: number | null;
   name: string;
   type: string;
   level: number;

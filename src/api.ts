@@ -91,6 +91,21 @@ export const createItem = async (newItem: CreateItem) => {
   }
 };
 
+export const editItem = async (newItem: CreateItem, id: number) => {
+  try {
+    const { data, error } = await supabase.from('items').update(newItem).eq('id', id).select();
+
+    return {
+      isSuccess: error ? false : true,
+      error: error?.toString() || 'Item successefully saved',
+      data: data?.[0],
+    };
+  } catch (e) {
+    console.log(e);
+    return { isSuccess: false, error: (e as Error).message };
+  }
+};
+
 export const createBuild = async (newBuild: NewBuild) => {
   try {
     const { data, error } = await supabase.from('builds').insert([newBuild]).select();

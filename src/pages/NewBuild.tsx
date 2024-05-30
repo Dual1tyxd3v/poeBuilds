@@ -1,10 +1,9 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { AppRoute } from '../config';
 import Wrapper from '../ui/Wrapper';
 import { MouseEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import NewItem from '../components/NewItem';
-import { FaLongArrowAltLeft } from 'react-icons/fa';
 import CreateBuild from '../components/CreateBuild';
 import { useSelector } from 'react-redux';
 import { getAuthStatus, getIsLoading, getMessage } from '../store/selectors';
@@ -12,6 +11,7 @@ import Loader from '../components/Loader';
 import Message from '../components/Message';
 import { useAppDispatch } from '../store';
 import { getItemsAction } from '../store/async-actions';
+import BackLink from '../components/BackLink';
 
 const Tabs = styled.div`
   display: flex;
@@ -62,20 +62,6 @@ const Tab = styled.button<TabProps>`
   }
 `;
 
-const BackLink = styled(Link)`
-  position: absolute;
-  left: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--color-text--primary);
-  transition: color 0.2s ease, transform 0.2s ease;
-
-  &:hover {
-    color: var(--color-text--active);
-    transform: translateY(-50%) scaleX(1.2);
-  }
-`;
-
 export default function NewBuild() {
   const auth = useSelector(getAuthStatus);
   const navigate = useNavigate();
@@ -101,9 +87,7 @@ export default function NewBuild() {
       {message && <Message msg={message} />}
       {isLoading && <Loader />}
       <Tabs>
-        <BackLink to={AppRoute.Main} aria-label="Back to home" title="Back to home">
-          <FaLongArrowAltLeft size="3rem" />
-        </BackLink>
+        <BackLink />
         <Tab $isactive={activeTab === 'item'} data-id="item" onClick={onTabChangeHandler}>
           Item
         </Tab>
@@ -111,7 +95,7 @@ export default function NewBuild() {
           Build
         </Tab>
       </Tabs>
-      <Wrapper style={{ height: 'calc(100% - 26px)',minHeight: '50.6rem', overflow: 'auto', }}>
+      <Wrapper style={{ height: 'calc(100% - 26px)', minHeight: '50.6rem', overflow: 'auto' }}>
         {activeTab === 'item' ? <NewItem /> : <CreateBuild />}
       </Wrapper>
     </>

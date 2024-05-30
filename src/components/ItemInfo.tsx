@@ -27,7 +27,7 @@ const Container = styled.div`
 `;
 
 export default function ItemInfo({ formData, onChangeHandler }: ItemInfoProps) {
-  const { rarity, slot, image, tradeUrl, source, difficulty } = formData;
+  const { rarity, slot, image, tradeUrl, source, difficulty, id } = formData;
   return (
     <Container>
       <Field>
@@ -77,7 +77,7 @@ export default function ItemInfo({ formData, onChangeHandler }: ItemInfoProps) {
           min="0"
         />
       </FormFieldColumn>
-      <Button>Add item</Button>
+      <Button>{id ? 'Save item' : 'Add item'}</Button>
     </Container>
   );
 }

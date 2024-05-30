@@ -73,3 +73,32 @@ export const isBuildCorrect = (items: Item[], buildItems: BuildItem[]) => {
   }
   return true;
 };
+
+export const createItemFormState = (item: Item) => {
+  const {
+    id,
+    img,
+    slot,
+    difficulty,
+    tradeUrl,
+    source,
+    type,
+    stats: { implicit, text, name, level, explicit },
+  } = item;
+
+  return {
+    id,
+    name: name[0],
+    type: name[1],
+    level,
+    implicit,
+    rarity: type,
+    explicit: explicit.join('\n'),
+    description: text || '',
+    slot,
+    image: img,
+    tradeUrl,
+    source,
+    difficulty,
+  };
+};
