@@ -94,7 +94,7 @@ export default function Nav({ builds }: NavProps) {
           <HiArrowsUpDown size="2rem" />
         </Button>
         {auth === 'auth' && (
-          <Button title="Adde new" aria-label="Add new build" onClick={() => navigate(AppRoute.Add)}>
+          <Button title="Add new" aria-label="Add new build" onClick={() => navigate(AppRoute.Add)}>
             <TiPlus size="2rem" />
           </Button>
         )}
