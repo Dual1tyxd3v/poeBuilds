@@ -50,6 +50,8 @@ export default function Build() {
         Some items are missed
         <br />
         Choose another build
+        <br />
+        or edit this
       </EmptyPage>
     );
   }

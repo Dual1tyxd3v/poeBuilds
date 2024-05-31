@@ -48,7 +48,7 @@ const Container = styled.div`
 `;
 
 export default function BuildStats({ formData, changeFormData }: BuildStatsProps) {
-  const { name, damage, pob, difficulty } = formData;
+  const { name, damage, pob, difficulty, id } = formData;
 
   function onChangeHandler(e: ChangeEvent) {
     const input = e.target as HTMLInputElement;
@@ -76,7 +76,7 @@ export default function BuildStats({ formData, changeFormData }: BuildStatsProps
         <Label htmlFor="damage">Damage</Label>
         <Input required onChange={onChangeHandler} type="number" id="damage" min="0" value={damage} />
       </FormFieldColumn>
-      <Button>Add Build</Button>
+      <Button>{id ? 'Save' : 'Add'} Build</Button>
     </Container>
   );
 }

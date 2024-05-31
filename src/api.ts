@@ -117,6 +117,17 @@ export const createBuild = async (newBuild: NewBuild) => {
   }
 };
 
+export const editBuild = async (editedBuild: NewBuild, id: number) => {
+  try {
+    const { data, error } = await supabase.from('builds').update(editedBuild).eq('id', id).select();
+
+    return { id: data ? +data[0].id : 0, error: error?.toString() || 'Build successefully updated' };
+  } catch (e) {
+    console.log(e);
+    return { id: 0, error: (e as Error).message };
+  }
+};
+
 export const deleteItem = async (id: number) => {
   try {
     const { error } = await supabase.from('items').delete().eq('id', id);

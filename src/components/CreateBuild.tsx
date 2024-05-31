@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 import { getItemsFromState } from '../store/selectors';
 import { useAppDispatch } from '../store';
 import { setMessage } from '../store/reducer';
-import { createBuildAction } from '../store/async-actions';
+import { createBuildAction, editBuildAction } from '../store/async-actions';
 import { useNavigate } from 'react-router-dom';
 
 const Wrapper = styled.form`
@@ -77,7 +77,20 @@ export default function CreateBuild({ build }: CreateBuildProps) {
     }
 
     const { name, damage, difficulty, pob } = formData;
-    const { payload } = await dispatch(createBuildAction({ name, pob, damage, difficulty, items: newItems }));
+    const { payload } = build
+      ? await dispatch(
+          editBuildAction({
+            editedBuild: {
+              name,
+              pob,
+              damage,
+              difficulty,
+              items: newItems,
+            },
+            id: formData.id,
+          })
+        )
+      : await dispatch(createBuildAction({ name, pob, damage, difficulty, items: newItems }));
 
     const { id } = payload as { id: number; error: string };
 

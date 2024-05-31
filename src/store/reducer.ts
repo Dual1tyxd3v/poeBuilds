@@ -7,6 +7,7 @@ import {
   createItemAction,
   deleteBuildAction,
   deleteItemAction,
+  editBuildAction,
   editItemAction,
   getBuildAction,
   getBuildsAction,
@@ -158,6 +159,17 @@ export const reducer = createSlice({
         state.message = action.payload.error;
       })
       .addCase(editItemAction.rejected, (state, action) => {
+        state.isLoading = false;
+        state.message = action.error.toString();
+      })
+      .addCase(editBuildAction.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(editBuildAction.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.message = action.payload.error;
+      })
+      .addCase(editBuildAction.rejected, (state, action) => {
         state.isLoading = false;
         state.message = action.error.toString();
       }),
