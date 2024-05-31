@@ -60,6 +60,13 @@
 html {
   font-size: 62.5%;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+  @media (max-width: 1320px) {
+    font-size: 50%;
+  }
+  @media (max-width: 1060px) {
+    font-size: 38%;
+  }
 }
 
 a {

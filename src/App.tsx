@@ -1,8 +1,8 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { AppRoute } from './config';
+import { AppRoute, MIN_WIDTH } from './config';
 import Layout from './components/Layout';
 import Build from './pages/Build';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import NotFound from './pages/NotFound';
 import Login from './pages/Login';
 import NewBuild from './pages/NewBuild';
@@ -10,6 +10,7 @@ import { useAppDispatch } from './store';
 import { checkAuthAction } from './store/async-actions';
 import EditItem from './pages/EditItem';
 import EditBuild from './pages/EditBuild';
+import Message from './components/Message';
 
 const router = createBrowserRouter([
   {
@@ -47,10 +48,23 @@ const router = createBrowserRouter([
 
 function App() {
   const dispatch = useAppDispatch();
+  const [width, setWidth] = useState(0);
 
   useEffect(() => {
+    setWidth(window.innerWidth);
     dispatch(checkAuthAction());
   }, [dispatch]);
+
+  useEffect(() => {
+    function onResizeHandler() {
+      setWidth(window.innerWidth);
+    }
+    window.addEventListener('resize', onResizeHandler);
+
+    return () => window.removeEventListener('resize', onResizeHandler);
+  }, []);
+
+  if (width < MIN_WIDTH) return <Message msg="This app works only on tablets and desktop" />;
 
   return <RouterProvider router={router} />;
 }

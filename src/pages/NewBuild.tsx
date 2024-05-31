@@ -29,35 +29,36 @@ const Tab = styled.button<TabProps>`
   border: none;
   background-color: transparent;
   color: ${(props) => (props.$isactive ? 'var(--color-text--active)' : 'var(--color-text--default)')};
-  font-size: 16px;
-  padding: 5px 0;
+  font-size: 1.6rem;
+  padding: 0.5rem 0;
   font-family: 'FontinCard';
   font-weight: 600;
-  background: url(/images/tab--left.png) no-repeat, url(/images/tab--right.png) no-repeat;
-  background-position: top left, top right;
   background: url(/images/tab--mid.png) repeat-x;
-  background-position: ${(props) => (props.$isactive ? 'bottom' : 'top')} center;
+  background-position-y: ${(props) => (props.$isactive ? 'bottom' : 'top')};
   position: relative;
+  background-size: 100% 200%;
 
   &::after,
   &::before {
     content: '';
     display: block;
-    height: 26px;
-    width: 19px;
+    height: 2.6rem;
+    width: 1.9rem;
     position: absolute;
     top: 0;
   }
 
   &::after {
-    left: -19px;
+    left: -1.9rem;
     background: url(/images/tab--left.png) no-repeat;
+    background-size: 100% 200%;
     background-position: ${(props) => (props.$isactive ? 'bottom' : 'top')} left;
   }
 
   &::before {
-    right: -19px;
+    right: -1.9rem;
     background: url(/images/tab--right.png) no-repeat;
+    background-size: 100% 200%;
     background-position: ${(props) => (props.$isactive ? 'bottom' : 'top')} right;
   }
 `;

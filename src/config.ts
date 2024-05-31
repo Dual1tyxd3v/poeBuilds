@@ -14,6 +14,8 @@ export enum AuthStatus {
   Unknown = 'unknown',
 }
 
+export const MIN_WIDTH = 800;
+
 export const TEMPLATE_SLOTS = [
   'weapon1',
   'weapon2',
