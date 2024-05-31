@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { getItemsFromState, getMessage } from '../store/selectors';
+import { getBuildsFromState, getMessage } from '../store/selectors';
 import PrepareEditPage from '../components/PrepareEditPage';
 import styled from 'styled-components';
 import BackLink from '../components/BackLink';
@@ -12,7 +12,7 @@ const Controls = styled.div`
 `;
 
 export default function EditItem() {
-  const items = useSelector(getItemsFromState);
+  const builds = useSelector(getBuildsFromState);
   const message = useSelector(getMessage);
 
   return (
@@ -22,7 +22,7 @@ export default function EditItem() {
         <BackLink />
       </Controls>
       <Wrapper style={{ height: 'calc(100% - 2rem)', minHeight: '50.6rem', overflow: 'auto' }}>
-        <PrepareEditPage collection={items} type="items" />;
+        <PrepareEditPage collection={builds} type="builds" />;
       </Wrapper>
     </>
   );

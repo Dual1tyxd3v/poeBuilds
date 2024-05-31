@@ -9,6 +9,7 @@ import NewBuild from './pages/NewBuild';
 import { useAppDispatch } from './store';
 import { checkAuthAction } from './store/async-actions';
 import EditItem from './pages/EditItem';
+import EditBuild from './pages/EditBuild';
 
 const router = createBrowserRouter([
   {
@@ -32,7 +33,11 @@ const router = createBrowserRouter([
   },
   {
     path: `${AppRoute.EditItem}/:id`,
-    element: <EditItem />
+    element: <EditItem />,
+  },
+  {
+    path: `${AppRoute.EditBuild}/:id`,
+    element: <EditBuild />,
   },
   {
     path: '*',

@@ -72,7 +72,7 @@ export default function NavTab({ build }: NavTabProps) {
           Damage: <Value>{damage}</Value> Difficulty: <Value>{difficulty}</Value>
         </Description>
       </A>
-      <Controls route={`test`} deleteAction={onDeleteAction} />
+      <Controls route={`${AppRoute.EditBuild}/${id}`} deleteAction={onDeleteAction} />
     </Li>
   );
 }

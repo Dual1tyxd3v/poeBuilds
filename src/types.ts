@@ -65,7 +65,7 @@ export type GetBuildsResponse = {
   error: string | null;
 };
 
-export type NewBuildFormData = Omit<NewBuild, 'items'>;
+export type NewBuildFormData = Omit<Build, 'items'>;
 
 export type GetBuildDetailsResponse = {
   data: {

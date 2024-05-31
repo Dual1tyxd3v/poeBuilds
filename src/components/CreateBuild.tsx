@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { BuildItem, Item, NewBuildFormData, TemplateItems } from '../types';
+import { Build, BuildItem, Item, NewBuildFormData, TemplateItems } from '../types';
 import ItemsContainer from '../ui/ItemsContainer';
 import { AppRoute, TEMPLATE_SLOTS } from '../config';
 import Slot from '../ui/Slot';
@@ -21,19 +21,25 @@ const Wrapper = styled.form`
   flex: 1;
 `;
 
-export default function CreateBuild() {
+type CreateBuildProps = {
+  build?: Build;
+};
+
+export default function CreateBuild({ build }: CreateBuildProps) {
   const [templateItems, setTemplateItems] = useState(() =>
     TEMPLATE_SLOTS.reduce((a, b) => {
-      return { ...a, [b]: 0 };
+      return { ...a, [b]: build ? build.items.find((item) => item.slot === b)?.id : 0 };
     }, {})
   );
+
   const [activeSlot, setActiveSlot] = useState<null | string>(null);
   const [activeItem, setActiveItem] = useState<null | Item>(null);
   const [formData, setFormData] = useState({
-    name: '',
-    pob: '',
-    damage: 0,
-    difficulty: 0,
+    id: build ? build.id : 0,
+    name: build ? build.name : '',
+    pob: build ? build.pob : '',
+    damage: build ? build.damage : 0,
+    difficulty: build ? build.difficulty : 0,
   });
   const items = useSelector(getItemsFromState);
   const dispatch = useAppDispatch();

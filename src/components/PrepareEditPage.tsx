@@ -4,21 +4,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { AppRoute } from '../config';
 import { useAppDispatch } from '../store';
 import { getBuildsAction, getItemsAction } from '../store/async-actions';
-import { getAuthStatus, getIsLoading, getMessage } from '../store/selectors';
+import { getAuthStatus, getIsLoading } from '../store/selectors';
 import Loader from './Loader';
 import { Build, Item } from '../types';
 import EmptyPage from '../ui/EmptyPage';
-import Wrapper from '../ui/Wrapper';
 import NewItem from './NewItem';
-import NewBuild from '../pages/NewBuild';
-import BackLink from './BackLink';
-import Message from './Message';
-import styled from 'styled-components';
-
-const Controls = styled.div`
-  position: relative;
-  height: 2rem;
-`;
+import CreateBuild from './CreateBuild';
 
 type PrepareEditPageProps = {
   collection: Item[] | Build[];
@@ -30,42 +21,27 @@ export default function PrepareEditPage({ collection, type }: PrepareEditPagePro
   const navigate = useNavigate();
   const authStatus = useSelector(getAuthStatus);
   const isLoading = useSelector(getIsLoading);
-  const message = useSelector(getMessage);
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    authStatus === 'auth' && type === 'items' ? dispatch(getItemsAction()) : dispatch(getBuildsAction());
+    if (authStatus !== 'auth') return;
+
+    dispatch(getItemsAction());
+    type === 'builds' && dispatch(getBuildsAction());
   }, [dispatch, authStatus, type]);
 
   if (authStatus === 'noauth') navigate(AppRoute.Main);
 
   if (isLoading || !collection.length) return <Loader />;
 
-  if (!id || isNaN(+id))
-    return (
-      <Wrapper>
-        <EmptyPage>Wrong ID</EmptyPage>
-      </Wrapper>
-    );
+  if (!id || isNaN(+id)) return <EmptyPage>Wrong ID</EmptyPage>;
 
   const target = collection.find((item) => item.id === +id);
 
-  if (collection.length && !target)
-    return (
-      <Wrapper>
-        <EmptyPage>{type === 'items' ? 'Item' : 'Build'} not found </EmptyPage>
-      </Wrapper>
-    );
+  if (collection.length && !target) {
+    return <EmptyPage>{type === 'items' ? 'Item' : 'Build'} not found </EmptyPage>;
+  }
 
-  return (
-    <>
-      {message && <Message msg={message} />}
-      <Controls>
-        <BackLink />
-      </Controls>
-      <Wrapper style={{ height: 'calc(100% - 2rem)', minHeight: '50.6rem', overflow: 'auto' }}>
-        {type === 'items' ? <NewItem item={target as Item} /> : <NewBuild />}
-      </Wrapper>
-    </>
-  );
+  return <>{type === 'items' ? <NewItem item={target as Item} /> : <CreateBuild build={target as Build} />}</>;
 }

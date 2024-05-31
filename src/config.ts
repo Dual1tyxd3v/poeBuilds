@@ -4,6 +4,7 @@ export enum AppRoute {
   Main = '/',
   Add = '/add',
   EditItem = '/editItem',
+  EditBuild = '/editBuild',
   Login = '/login',
 }
 
