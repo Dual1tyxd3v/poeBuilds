@@ -6,6 +6,8 @@ import Controls from './Controls';
 import { useCallback } from 'react';
 import { useAppDispatch } from '../store';
 import { deleteBuildAction, getBuildsAction } from '../store/async-actions';
+import { useSelector } from 'react-redux';
+import { getAuthStatus } from '../store/selectors';
 
 type NavTabProps = {
   build: Build;
@@ -56,6 +58,7 @@ const Value = styled.span`
 export default function NavTab({ build }: NavTabProps) {
   const dispatch = useAppDispatch();
   const { id, name, difficulty, damage } = build;
+  const auth = useSelector(getAuthStatus);
 
   const onDeleteAction = useCallback(async () => {
     const { payload } = await dispatch(deleteBuildAction(id));
@@ -72,7 +75,7 @@ export default function NavTab({ build }: NavTabProps) {
           Damage: <Value>{damage}</Value> Difficulty: <Value>{difficulty}</Value>
         </Description>
       </A>
-      <Controls route={`${AppRoute.EditBuild}/${id}`} deleteAction={onDeleteAction} />
+      {auth === 'auth' && <Controls route={`${AppRoute.EditBuild}/${id}`} deleteAction={onDeleteAction} />}
     </Li>
   );
 }
